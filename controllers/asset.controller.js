@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Asset from '../models/asset.model.js';
+import Asset from '../models/coin_api_models/asset.model.js';
 
 const  getAllAssets = async (req, res) => {
 
