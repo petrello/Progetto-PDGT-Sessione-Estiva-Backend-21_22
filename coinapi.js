@@ -1,9 +1,12 @@
 import dotenv    from 'dotenv';
-import fetch from 'node-fetch';
+import fetch     from 'node-fetch';
 
-import Asset from './models/asset.model.js';
-import Exchange from './models/exchange.model.js';
+import Asset     from './models/asset.model.js';
+import AssetIcon from './models/asset_icon.model.js';
+import Exchange  from './models/exchange.model.js';
+import ExchangeIcon from './models/exchange_icon.model.js';
 
+/* setting up options for GET requests */
 dotenv.config();
 const options = {
     method: 'GET',
@@ -11,8 +14,10 @@ const options = {
 }
 const host = 'https://rest.coinapi.io/v1';
 
+/* function to check if each Collection in the DB is empty or not */
 const checkEmptyDB = async () => {
 
+    /* CHECKING ASSETS COLLECTION */
     const assetsCounter = await Asset.countDocuments((err, count) => {
         if(count > 0) {
             console.log("Found Records for Assets: " + count);
@@ -28,6 +33,7 @@ const checkEmptyDB = async () => {
     you can call Query#clone() to clone the query and re-execute it.
     */
 
+    /* CHECKING EXCHANGES COLLECTION */
     const exchangesCounter = await Exchange.countDocuments((err, count) => {
         if(count > 0) {
             console.log("Found Records for Exchange: " + count);
@@ -37,14 +43,110 @@ const checkEmptyDB = async () => {
         }
     }).clone().catch(err => console.log(err));
 
-    return { assetsCounter, exchangesCounter };
+    /* CHECKING ASSET ICONS COLLECTION */
+    const assetIconsCounter = await AssetIcon.countDocuments((err, count) => {
+        if(count > 0) {
+            console.log("Found Records for Asset Icons: " + count);
+        }
+        else {
+            console.log("No Found Records.");
+        }
+    }).clone().catch(err => console.log(err));
+
+    /* CHECKING EXCHANGE ICONS COLLECTION */
+    const exchangeIconsCounter = await ExchangeIcon.countDocuments((err, count) => {
+        if(count > 0) {
+            console.log("Found Records for Exchange Icons: " + count);
+        }
+        else {
+            console.log("No Found Records.");
+        }
+    }).clone().catch(err => console.log(err));
+
+    return { assetsCounter, exchangesCounter, assetIconsCounter, exchangeIconsCounter };
 }
+
+/**
+ * API METHODS FOR FETCHING ICONS
+ */
+const getAllAssetIcons = async () => {
+    const response = await fetch(host + '/assets/icons/64', options);
+    const assetIconsList = await response.json();
+    console.log('Sto facendo il fetch, attendere...');
+    assetIconsList.forEach(assetIcon => {
+        const newAssetIcon = new AssetIcon(assetIcon);
+        newAssetIcon.save();
+    });
+    console.log('fetch terminato!'); 
+}
+const updateAllAssetIcons = async () => {
+    const response = await fetch(host + '/assets/icons/64', options);
+    const assetIconsList = await response.json();
+    console.log('sto aggionrando le icone degli assets, attendere...');
+    const bulkAssetIcons = assetIconsList.map(assetIcon => {
+        return {
+            updateOne: {
+                filter: {
+                    asset_id: assetIcon.asset_id
+                },
+                update: {
+                    $set : {
+                        asset_id: assetIcon.asset_id,
+                        url: assetIcon.url,
+                    }
+                }
+            }
+        }
+    })
+
+    AssetIcon.bulkWrite(bulkAssetIcons).then((res) => {
+        console.log("Documents Asset Icons Updated", res.modifiedCount)
+    })
+}
+
+/**
+ * API METHODS FOR FETCHING ICONS
+ */
+ const getAllExchangeIcons = async () => {
+    const response = await fetch(host + '/exchanges/icons/64', options);
+    const exchangeIconsList = await response.json();
+    console.log('Sto facendo il fetch, attendere...');
+    exchangeIconsList.forEach(exchangeIcon => {
+        const newExchangeIcon = new ExchangeIcon(exchangeIcon);
+        newExchangeIcon.save();
+    }); 
+    console.log('fetch terminato!');
+}
+const updateAllExchangeIcons = async () => {
+    const response = await fetch(host + '/assets/icons/64', options);
+    const exchangeIconsList = await response.json();
+    console.log('sto aggionrando le icone degli exchange, attendere...');
+    const bulkExchangeIcons = exchangeIconsList.map(exchangeIcon => {
+        return {
+            updateOne: {
+                filter: {
+                    exchange_id: exchangeIcon.exchange_id
+                },
+                update: {
+                    $set : {
+                        exchange_id: exchangeIcon.exchange_id,
+                        url: exchangeIcon.url,
+                    }
+                }
+            }
+        }
+    })
+
+    ExchangeIcon.bulkWrite(bulkExchangeIcons).then((res) => {
+        console.log("Documents Exchange Icons Updated", res.modifiedCount)
+    })
+}
+
 
 /**
  * API METHODS FOR FETCHING ASSETS
  */
 const getAllAssets = async () => {
-
     const response = await fetch(host + '/assets', options);
     const assetsList = await response.json();
     console.log('Sto facendo il fetch, attendere...');
@@ -52,6 +154,7 @@ const getAllAssets = async () => {
         const newAsset = new Asset(asset);
         newAsset.save();
     });
+    console.log('fetch terminato!');
 }
 
 const updateAllAssets = async () => {
@@ -87,6 +190,7 @@ const updateAllAssets = async () => {
             }
         }
     })
+
     Asset.bulkWrite(bulkAssets).then((res) => {
         console.log("Documents Assets Updated", res.modifiedCount)
     })
@@ -104,7 +208,7 @@ const updateAllAssets = async () => {
         console.log(exchange.name);
         const newExchange = new Exchange(exchange);
         newExchange.save();
-    });
+    }).then(console.log('fetch terminato!'));;
 }
 
 const updateAllExchanges = async () => {
@@ -146,25 +250,42 @@ const updateAllExchanges = async () => {
 
 export default async function () {
 
-    let { assetsCounter, exchangesCounter } = await checkEmptyDB();
+    let { 
+        assetsCounter, 
+        exchangesCounter, 
+        assetIconsCounter, 
+        exchangeIconsCounter 
+    } = await checkEmptyDB();
     
-    if(assetsCounter > 0) { // il DB è popolato allora aggiorno i dati
-        console.log('res ' + assetsCounter);
+    /* if(assetsCounter > 0) {
         console.log('Assets da aggiornare');
         updateAllAssets(); 
-    } else { // devo popolare il DB
-        console.log('res ' + res);
+    } else {
         console.log('Assets da popolare');
         getAllAssets();
     }
     
-    if(exchangesCounter > 0) { // il DB è popolato allora aggiorno i dati
-        console.log('res2 ' + exchangesCounter);
+    if(exchangesCounter > 0) {
         console.log('Exchanges da aggiornare');
         updateAllExchanges(); 
-    } else { // devo popolare il DB
+    } else {
         console.log('Exchanges da popolare');
         getAllExchanges();
+    } */
+
+    if(exchangeIconsCounter > 0) {
+        console.log('Exchange Icons da aggiornare');
+        updateAllExchangeIcons(); 
+    } else {
+        console.log('Exchange Icons da popolare');
+        getAllExchangeIcons();
+    }
+    if(assetIconsCounter > 0) {
+        console.log('Asset Icons da aggiornare');
+        updateAllAssetIcons(); 
+    } else {
+        console.log('Asset Icons da popolare');
+        getAllAssetIcons();
     }
 
 };
