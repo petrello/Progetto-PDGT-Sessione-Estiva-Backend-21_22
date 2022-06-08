@@ -3,11 +3,18 @@ import AssetController from '../controllers/asset.controller.js';
 
 const router = express.Router();
 
-router.get('/allAssets', AssetController.getAllAssets);
-/*router.post('', );
-router.put();
-router.delete();*/
+// GET ROUTES
+router.get('/',             AssetController.getAllAssets);
+router.get('/:asset_id',    AssetController.getAssetById);
 
-// TODO: write endpoints to use in flutter
+// POST ROUTES
+router.post('/',            AssetController.addNewAsset);
+
+// PUT ROUTES
+router.put('/:asset_id',    AssetController.modifyExchangeCurrency);
+router.put('/:asset_id',    AssetController.modifyTimePeriod);
+
+// DELETE ROUTES
+router.delete('/:asset_id', AssetController.deleteAssetById);
 
 export default router;

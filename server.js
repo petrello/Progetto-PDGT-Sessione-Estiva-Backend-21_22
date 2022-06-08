@@ -30,10 +30,13 @@ app.use(cors());
 app.use(morgan('combined'));
 
 // setup asset routes endpoints from:  localhost:4000/asset
-app.use('/asset', assetRoutes);
+//app.use('/asset', assetRoutes);
 // TODO: setup icons routes /icons
 // setup exchange routes endpoints from:  localhost:4000/exchange
-app.use('/exchange', exchangeRoutes);
+//app.use('/exchange', exchangeRoutes);
+// setup assets user's list routes endpoints: localhost:4000/userList
+app.use('/userList/assets', assetRoutes);
+
 
 // setup MongoDB Atlas connection
 dotenv.config(); 

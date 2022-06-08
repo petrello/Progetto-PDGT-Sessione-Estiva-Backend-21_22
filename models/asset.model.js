@@ -7,11 +7,13 @@ const assetSchema = new mongoose.Schema( {
     percentage_change: Number,
     price: Number,
     exchange_currency: String,
+    time_period_start: Date,
+    time_period_end: Date,
     plot_rate: [Number],
 }, { collection: 'user_assets_list'} );
 
 /* transforming Schema into a Model */
-const Asset = mongoose.model('Asset', assetSchema);
+const AssetModel = mongoose.model('AssetModel', assetSchema);
 
 /* exporting just the Model */
-export default Asset;
+export default AssetModel;
