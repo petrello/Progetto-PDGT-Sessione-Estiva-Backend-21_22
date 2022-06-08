@@ -1,9 +1,11 @@
+/* importing dependecies */
 import dotenv    from 'dotenv';
 import fetch     from 'node-fetch';
 
-import Asset     from './models/asset.model.js';
-import AssetIcon from './models/asset_icon.model.js';
-import Exchange  from './models/exchange.model.js';
+/* importing mongoose models */
+import Asset        from './models/asset.model.js';
+import AssetIcon    from './models/asset_icon.model.js';
+import Exchange     from './models/exchange.model.js';
 import ExchangeIcon from './models/exchange_icon.model.js';
 
 /* setting up options for GET requests */
@@ -76,9 +78,10 @@ const getAllAssetIcons = async () => {
     assetIconsList.forEach(assetIcon => {
         const newAssetIcon = new AssetIcon(assetIcon);
         newAssetIcon.save();
+        console.log(newAssetIcon.exchange_id, 'salvato');
     });
-    console.log('fetch terminato!'); 
 }
+
 const updateAllAssetIcons = async () => {
     const response = await fetch(host + '/assets/icons/64', options);
     const assetIconsList = await response.json();
@@ -107,15 +110,16 @@ const updateAllAssetIcons = async () => {
 /**
  * API METHODS FOR FETCHING ICONS
  */
- const getAllExchangeIcons = async () => {
+const getAllExchangeIcons = async () => {
     const response = await fetch(host + '/exchanges/icons/64', options);
     const exchangeIconsList = await response.json();
     console.log('Sto facendo il fetch, attendere...');
     exchangeIconsList.forEach(exchangeIcon => {
         const newExchangeIcon = new ExchangeIcon(exchangeIcon);
         newExchangeIcon.save();
-    }); 
-    console.log('fetch terminato!');
+        console.log(newExchangeIcon.exchange_id, 'salvato');
+        
+    });
 }
 const updateAllExchangeIcons = async () => {
     const response = await fetch(host + '/assets/icons/64', options);
@@ -153,8 +157,8 @@ const getAllAssets = async () => {
     assetsList.forEach(asset => {
         const newAsset = new Asset(asset);
         newAsset.save();
+        console.log(newAsset.name, 'salvato');
     });
-    console.log('fetch terminato!');
 }
 
 const updateAllAssets = async () => {
@@ -199,16 +203,17 @@ const updateAllAssets = async () => {
 /**
  * API METHODS FOR FETCHING EXCHANGES
  */
- const getAllExchanges = async () => {
+const getAllExchanges = async () => {
 
     const response = await fetch(host + '/exchanges', options);
     const exchangesList = await response.json();
     console.log('Sto facendo il fetch degli Exchanges, attendere...');
     exchangesList.forEach(exchange => {
-        console.log(exchange.name);
+        //console.log(exchange.name);
         const newExchange = new Exchange(exchange);
         newExchange.save();
-    }).then(console.log('fetch terminato!'));;
+        console.log(newExchange.name, 'salvato');
+    });
 }
 
 const updateAllExchanges = async () => {
