@@ -7,6 +7,8 @@ const assetSchema = new mongoose.Schema( {
     percentage_change: Number,
     price: Number,
     exchange_currency: String,
+    period_id: String,
+    duration_id: String, 
     time_period_start: Date,
     time_period_end: Date,
     plot_rate: [Number],

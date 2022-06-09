@@ -1,5 +1,12 @@
 import mongoose from 'mongoose';
-import { getEndPeriod, getPercentageChange, getPlotRate, getStartPeriod } from '../helpers.js';
+import { 
+    getCurrentPrice, 
+    getDefaultEndPeriod, 
+    getEndPeriod, 
+    getPercentageChange, 
+    getPlotRate, 
+    getStartPeriod 
+} from '../helpers.js';
 import AssetModel from '../models/asset.model.js';
 import Asset from '../models/coin_api_models/asset.model.js';
 import AssetIcon from '../models/coin_api_models/asset_icon.model.js';
@@ -8,7 +15,7 @@ import AssetIcon from '../models/coin_api_models/asset_icon.model.js';
 const getAllAssets = async (req, res) => {
     try {
         const allAssets = await AssetModel.find({});
-        if(allAssets)
+        if(typeof allAssets !== 'undefined' && allAssets.length > 0)
             res.status(200).send({ status: "OK", data: allAssets });
         else
             res.status(204).send(); // no content -> it has no body
@@ -56,18 +63,23 @@ const addNewAsset = async (req, res) => {
     // se lo trovo allora posso usarlo per costruire
     // il nuovo asset
 
+    const defaultstartPeriod = getDefaultEndPeriod();
+    const defaultEndPeriod = getDefaultEndPeriod();
+
     const asset = {
         // a new asset will be inizialized with default attribute
         // than the user will be able to modify them using PUT requests
         asset_id: receivedAsset.asset_id,
         name: receivedAsset.name,
         icon: assetIcon.url,
-        percentage_change: await getPercentageChange(receivedAsset.asset_id, "USD", receivedAsset.price_usd),
-        price: receivedAsset.price_usd,
+        percentage_change: await getPercentageChange(receivedAsset.asset_id, "USD", "1DAY", defaultEndPeriod),
+        price: await getCurrentPrice(receivedAsset.asset_id, "USD", defaultEndPeriod),
         exchange_currency: "USD",
-        time_period_start: getStartPeriod(),
-        time_period_end: getEndPeriod(),
-        plot_rate: await getPlotRate(receivedAsset.asset_id, "USD", "1HRS"),
+        period_id: "1HRS",
+        duration_id: "1DAY", 
+        time_period_start: defaultstartPeriod,
+        time_period_end: defaultEndPeriod,
+        plot_rate: await getPlotRate(receivedAsset.asset_id, "USD", "1HRS", defaultstartPeriod, defaultEndPeriod)
     }
 
     const assetExists = await AssetModel.exists({ asset_id: receivedAsset.asset_id });
@@ -102,10 +114,10 @@ const modifyExchangeCurrency = async (req, res) => {
         changedAsset = await AssetModel.findOneAndUpdate(
             { asset_id: asset_id },
             { 
-                percentage_change: await getPercentageChange(asset.asset_id, asset.exchange_currency),
-                price: await getCurrentPrice(asset.asset_id, asset.exchange_currency),
+                percentage_change: await getPercentageChange(asset_id, asset.exchange_currency, asset.duration_id, asset.time_period_end),
+                price: await getCurrentPrice(asset_id, asset.exchange_currency, asset.time_period_end),
                 exchange_currency: asset.exchange_currency,
-                plot_rate: await getPlotRate(asset.asset_id, asset.exchange_currency, "1HRS")
+                plot_rate: await getPlotRate(asset_id, asset.exchange_currency, asset.period_id, asset.time_period_start, asset.time_period_end)
             },
             { new: true }
         );
@@ -131,8 +143,13 @@ const modifyTimePeriod = async (req, res) => {
         changedAsset = await AssetModel.findOneAndUpdate(
             { asset_id: asset_id },
             { 
+                percentage_change: await getPercentageChange(asset_id, asset.exchange_currency, asset.duration_id),
                 time_period_start: asset.time_period_start,
-                time_period_end: asset.time_period_end
+                time_period_end: asset.time_period_end,
+                price: await getCurrentPrice(asset_id, asset.exchange_currency, asset.time_period_end),
+                duration_id: asset.duration_id,
+                period_id: asset.period_id,
+                plot_rate: await getPlotRate(asset_id, asset.exchange_currency, asset.period_id, asset.time_period_start, asset.time_period_end)
             },
             { new: true }
         );
