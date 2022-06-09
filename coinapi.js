@@ -278,7 +278,7 @@ export default async function () {
         getAllExchanges();
     } */
 
-    if(exchangeIconsCounter > 0) {
+    /* if(exchangeIconsCounter > 0) {
         console.log('Exchange Icons da aggiornare');
         updateAllExchangeIcons(); 
     } else {
@@ -291,6 +291,6 @@ export default async function () {
     } else {
         console.log('Asset Icons da popolare');
         getAllAssetIcons();
-    }
+    } */
 
 };
