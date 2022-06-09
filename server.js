@@ -9,7 +9,7 @@ import dotenv        from 'dotenv';
 
 // importing routes to endpoints
 import assetRoutes from './routes/asset.routes.js';
-import exchangeRoutes from './routes/exchange.routes.js';
+//import exchangeRoutes from './routes/exchange.routes.js';
 
 // importing coinAPI inizializer
 import CoinAPI from './coinapi.js';

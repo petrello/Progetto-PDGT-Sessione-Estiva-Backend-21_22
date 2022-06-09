@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { getEndPeriod, getPercentageChange, getPlotRate, getStartPeriod } from '../helpers.js';
 import AssetModel from '../models/asset.model.js';
 import Asset from '../models/coin_api_models/asset.model.js';
 import AssetIcon from '../models/coin_api_models/asset_icon.model.js';
@@ -7,24 +8,30 @@ import AssetIcon from '../models/coin_api_models/asset_icon.model.js';
 const getAllAssets = async (req, res) => {
     try {
         const allAssets = await AssetModel.find({});
-        res.status(200).send({ status: "OK", data:  allAssets });
+        console.log(allAssets);
+        if(!allAssets)
+            res.status(200).send({ status: "OK", data:  allAssets });
+        else
+            res.status(204).send({ status: "No Content", message: "No assets yet" });
     } catch(err) {
-        res.status(404).send({ status: "Not Found", message: err.message });
+        res.status(400).send({ status: "Bad Request", message: err.message });
     }
 }
 
 // GET - ritorna un asset dettagliato specificato dall'utente
 const getAssetById = async (req, res) => {
     const { asset_id: asset_id } = req.params;
-    /* if(!mongoose.Types.ObjectId.isValid(_id))
-      return res.status(404).send({ status: "Not Found", message: "No asset with that id" });
-    */
+
     try {
         // find a document by its id
         const asset = await AssetModel.findOne({ asset_id: asset_id });
-        res.status(200).send( { status: "OK", data:  asset} );
+        if(asset)
+            res.status(200).send( { status: "OK", data:  asset} );
+        else
+            res.status(404).send({ status: "Not Found", message: `Asset ${asset_id} not found` });
+
     } catch(err) {
-        res.status(404).send({ status: "Not Found", message: err.message });
+        res.status(400).send({ status: "Bad Request", message: err.message });
     }
 }
 
@@ -33,46 +40,50 @@ const getAssetById = async (req, res) => {
 // POST - aggiungi un nuovo asset alla lista dell'utente
 const addNewAsset = async (req, res) => {
     
-    if (!req.body) 
+    if (!req.body.asset_id)
         return res.status(400).send({ status: "Bad Request", message: "Body content is missing" });
-    
 
     // cerco l'asset in tutta la collezione
+    let receivedAsset, assetIcon;
     try {
-        const receivedAsset = await Asset.findOne({ asset_id: req.body.asset_id });
-        const assetIcon = await AssetIcon.findOne({ asset_id: receivedAsset.asset_id });
+        receivedAsset = await Asset.findOne({ asset_id: req.body.asset_id });
+        assetIcon = await AssetIcon.findOne({ asset_id: req.body.asset_id });
     } catch(err) {
-        res.status(404).send({ status: "Not Found", message: err.message });
+        return res.status(404).send({ status: "Not Found", message: err.message });
     }
+
+    console.log(receivedAsset);
+    console.log(assetIcon);
 
     // se lo trovo allora posso usarlo per costruire
     // il nuovo asset
 
-    const today = new Date();
-    const yesterday = new(today - 1);
-
     // TODO: DEFINE % FUNCTION E [] FUNCTION
 
     const asset = {
+        // a new asset will be inizialized with default attribute
+        // than the user will be able to modify them using PUT requests
         asset_id: receivedAsset.asset_id,
         name: receivedAsset.name,
         icon: assetIcon.url,
-        percentage_change: 0.0,
+        percentage_change: await getPercentageChange(receivedAsset.asset_id, "USD", receivedAsset.price_usd),
         price: receivedAsset.price_usd,
         exchange_currency: "USD",
-        time_period_start: yesterday,
-        time_period_end: today,
-        plot_rate: [0,0,0,0,0,0,0,0,0,0,0]
+        time_period_start: getStartPeriod(),
+        time_period_end: getEndPeriod(),
+        plot_rate: await getPlotRate(receivedAsset.asset_id, "USD", "1HRS"),
     }
 
-    const newAsset = new AssetModel(asset);
+    res.status(201).send({ status: "Created", data: asset });
+
+    /* const newAsset = new AssetModel(asset);
     
     try {
         await newAsset.save();
         res.status(201).send({ status: "Created", data: newAsset });
     } catch (error) {
         res.status(409).json({ message: error.message });
-    }
+    } */
 
 }
 
