@@ -8,11 +8,10 @@ import AssetIcon from '../models/coin_api_models/asset_icon.model.js';
 const getAllAssets = async (req, res) => {
     try {
         const allAssets = await AssetModel.find({});
-        console.log(allAssets);
-        if(!allAssets)
-            res.status(200).send({ status: "OK", data:  allAssets });
+        if(allAssets)
+            res.status(200).send({ status: "OK", data: allAssets });
         else
-            res.status(204).send({ status: "No Content", message: "No assets yet" });
+            res.status(204).send(); // no content -> it has no body
     } catch(err) {
         res.status(400).send({ status: "Bad Request", message: err.message });
     }
@@ -92,19 +91,79 @@ const addNewAsset = async (req, res) => {
 
 // PUT - cambia exchange_currency della crypto corrente
 const modifyExchangeCurrency = async (req, res) => {
+    const { asset_id: asset_id } = req.params;
+    const asset = req.body;
+    
+    if (!req.body)
+        return res.status(400).send({ status: "Bad Request", message: "Body content is missing" });
 
+    let changedAsset;
+    try {
+        changedAsset = await AssetModel.findOneAndUpdate(
+            { asset_id: asset_id },
+            { 
+                percentage_change: await getPercentageChange(asset.asset_id, asset.exchange_currency),
+                price: await getCurrentPrice(asset.asset_id, asset.exchange_currency),
+                exchange_currency: asset.exchange_currency,
+                plot_rate: await getPlotRate(asset.asset_id, asset.exchange_currency, "1HRS")
+            },
+            { new: true }
+        );
+    } catch(err) {
+        return res.status(500).send({ status: "Internal Server Error", message: err.message });
+    }
+
+    if(!changedAsset)
+        res.status(404).send({ status: "Not Found", message: `Asset ${asset_id} not found` });
+    else
+        res.status(200).send({ status: "OK", data: changedAsset });
 }
-
 // PUT - cambia periodo in cui plottiamo il grafico
 const modifyTimePeriod = async (req, res) => {
+    const { asset_id: asset_id } = req.params;
+    const asset = req.body;
+    
+    if (!req.body.asset_id)
+        return res.status(400).send({ status: "Bad Request", message: "Body content is missing" });
 
+    let changedAsset;
+    try {
+        changedAsset = await AssetModel.findOneAndUpdate(
+            { asset_id: asset_id },
+            { 
+                time_period_start: asset.time_period_start,
+                time_period_end: asset.time_period_end
+            },
+            { new: true }
+        );
+    } catch(err) {
+        return res.status(500).send({ status: "Internal Server Error", message: err.message });
+    }
+
+    if(!changedAsset)
+        res.status(404).send({ status: "Not Found", message: `Asset ${asset_id} not found` });
+    else
+        res.status(200).send({ status: "OK", data: changedAsset });
 }
 
 // TODO: Pensa ad altre PUT ma per ora due vanno bene
 
 // DELETE - elminia un asset specificato dall'utente
 const deleteAssetById = async (req, res) => {
-    
+    const { id: _id } = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(_id)) 
+        return res.status(404).send({ status: "Not Found", message: "No asset found with that id" });
+
+    let deletedAsset;
+
+    try {
+        deletedAsset = await AssetModel.findByIdAndRemove(_id);
+    } catch(err) {
+        return res.status(500).send({ status: "Internal Server Error", message: err.message });
+    }
+
+    res.status(200).send({ status:"OK", data: deletedAsset });
 }
 
 export default {

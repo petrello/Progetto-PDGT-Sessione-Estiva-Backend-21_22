@@ -36,11 +36,6 @@ export const getPlotRate = async (asset_id, exchange_currency, period_id) => {
     // return a list of plottable results
     let rates = [];
 
-    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
-    + asset_id + "/" + exchange_currency 
-    + "/history?period_id=" + period_id + "&time_start=" + yesterday.toISOString()
-    + "&time_end=" + today.toISOString() + "&apiKey=" + process.env.API_KEY); */
-
     const response = await fetch(`https://rest.coinapi.io/v1/exchangerate/${asset_id}/${exchange_currency}/history?period_id=${period_id}&time_start=${getStartPeriod().toISOString()}&time_end=${getEndPeriod().toISOString()}&apikey=BE6D370D-7FB6-45C5-81A3-AE07C8646C9E`);
 
     const exchangerateList = await response.json();
