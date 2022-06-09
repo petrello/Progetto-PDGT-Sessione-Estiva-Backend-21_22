@@ -48,17 +48,14 @@ const addNewAsset = async (req, res) => {
     try {
         receivedAsset = await Asset.findOne({ asset_id: req.body.asset_id });
         assetIcon = await AssetIcon.findOne({ asset_id: req.body.asset_id });
+        if(!receivedAsset || !assetIcon)
+            return res.status(404).send({ status: "Not Found", message: `Asset ${req.body.asset_id} not found` });
     } catch(err) {
-        return res.status(404).send({ status: "Not Found", message: err.message });
+        return res.status(500).send({ status: "Internal Server Error", message: err.message });
     }
-
-    console.log(receivedAsset);
-    console.log(assetIcon);
 
     // se lo trovo allora posso usarlo per costruire
     // il nuovo asset
-
-    // TODO: DEFINE % FUNCTION E [] FUNCTION
 
     const asset = {
         // a new asset will be inizialized with default attribute
@@ -74,16 +71,22 @@ const addNewAsset = async (req, res) => {
         plot_rate: await getPlotRate(receivedAsset.asset_id, "USD", "1HRS"),
     }
 
-    res.status(201).send({ status: "Created", data: asset });
+    const assetExists = await AssetModel.exists({ asset_id: receivedAsset.asset_id });
+    // verifico se l'assets si trova già nella lista
+    if(assetExists)
+        return res.status(403).json({ 
+            status: "Forbidden", 
+            message: `Asset ${receivedAsset.asset_id} already exists` 
+        });
 
-    /* const newAsset = new AssetModel(asset);
+    const newAsset = new AssetModel(asset);
     
     try {
         await newAsset.save();
         res.status(201).send({ status: "Created", data: newAsset });
     } catch (error) {
-        res.status(409).json({ message: error.message });
-    } */
+        res.status(409).json({ status: "Conflict", message: error.message });
+    }
 
 }
 
