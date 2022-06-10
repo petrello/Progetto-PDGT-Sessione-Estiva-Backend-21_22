@@ -36,27 +36,6 @@ crea il modello con cui deve interagire l'utente
             % -> get percentage - +0.23% (me lo devo calcolare io)
             grafico -> exchangerate/BTC/USD/history
 
- ## TODO 1
- // API GET
- CALCULATE PERCENTAGE CHANGE
- es: 24h -> BTC current: 14988, BTC 24h ago: 14937 
-            14988-14937=51
-            14988:51=100:x -> +0,34%
- es: (in negativo)
-        BTC current: 14988, BTC 24h ago: 20000
-        14988-20000 = -5012
-        14988:-5012=100:x -> -33,44%
-
-HO 4 VARIABILI:   
-        durata      (es: 24h, 1w, 1m, 1d)
-        asset       (es: BTC, ETH)    
-        price       (14000)
-        priceago    (20000)
-
-FORMULA: 14988-14937=51
-            14988:51=100:x -> +0,34%
-
-OUTPUT: +0,34 OPPURE -0,34
 
 
 ## TODO 2
