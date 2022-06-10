@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 import { 
     getCurrentPrice, 
-    getDefaultEndPeriod, 
-    getEndPeriod, 
+    getDefaultEndPeriod,  
+    getDefaultStartPeriod,
+    getStartPeriod,
+    getPeriod,
     getPercentageChange, 
-    getPlotRate, 
-    getStartPeriod 
+    getPlotRate,
 } from '../helpers.js';
 import AssetModel from '../models/asset.model.js';
 import Asset from '../models/coin_api_models/asset.model.js';
@@ -63,7 +64,7 @@ const addNewAsset = async (req, res) => {
     // se lo trovo allora posso usarlo per costruire
     // il nuovo asset
 
-    const defaultstartPeriod = getDefaultEndPeriod();
+    const defaultstartPeriod = getDefaultStartPeriod();
     const defaultEndPeriod = getDefaultEndPeriod();
 
     const asset = {
@@ -104,10 +105,14 @@ const addNewAsset = async (req, res) => {
 // PUT - cambia exchange_currency della crypto corrente
 const modifyExchangeCurrency = async (req, res) => {
     const { asset_id: asset_id } = req.params;
-    const asset = req.body;
     
     if (!req.body)
         return res.status(400).send({ status: "Bad Request", message: "Body content is missing" });
+
+    const asset = req.body;
+    // i have to reconvert ISO strings into Date objects
+    asset.time_period_start = new Date(asset.time_period_start);
+    asset.time_period_end = new Date(asset.time_period_end);
 
     let changedAsset;
     try {
@@ -115,6 +120,7 @@ const modifyExchangeCurrency = async (req, res) => {
             { asset_id: asset_id },
             { 
                 percentage_change: await getPercentageChange(asset_id, asset.exchange_currency, asset.duration_id, asset.time_period_end),
+                time_period_end: asset.time_period_end,
                 price: await getCurrentPrice(asset_id, asset.exchange_currency, asset.time_period_end),
                 exchange_currency: asset.exchange_currency,
                 plot_rate: await getPlotRate(asset_id, asset.exchange_currency, asset.period_id, asset.time_period_start, asset.time_period_end)
@@ -130,25 +136,34 @@ const modifyExchangeCurrency = async (req, res) => {
     else
         res.status(200).send({ status: "OK", data: changedAsset });
 }
+
 // PUT - cambia periodo in cui plottiamo il grafico
 const modifyTimePeriod = async (req, res) => {
     const { asset_id: asset_id } = req.params;
-    const asset = req.body;
     
     if (!req.body.asset_id)
         return res.status(400).send({ status: "Bad Request", message: "Body content is missing" });
+
+    const asset = req.body;
+    // i have to reconvert ISO strings into Date objects
+    asset.time_period_end = getDefaultEndPeriod();
+
+    // voglio aggiornare (ricalcolo) le seguenti informazioni
+    asset.time_period_start = getStartPeriod(asset.duration_id, asset.time_period_end);
+    asset.period_id = getPeriod(asset.duration_id);
+
 
     let changedAsset;
     try {
         changedAsset = await AssetModel.findOneAndUpdate(
             { asset_id: asset_id },
             { 
-                percentage_change: await getPercentageChange(asset_id, asset.exchange_currency, asset.duration_id),
-                time_period_start: asset.time_period_start,
-                time_period_end: asset.time_period_end,
+                percentage_change: await getPercentageChange(asset_id, asset.exchange_currency, asset.time_period_end),
                 price: await getCurrentPrice(asset_id, asset.exchange_currency, asset.time_period_end),
+                period_id: asset.period_id, /// ???
                 duration_id: asset.duration_id,
-                period_id: asset.period_id,
+                time_period_start: asset.time_period_start, // calcola  e modifica la funzione
+                time_period_end: asset.time_period_end,
                 plot_rate: await getPlotRate(asset_id, asset.exchange_currency, asset.period_id, asset.time_period_start, asset.time_period_end)
             },
             { new: true }
