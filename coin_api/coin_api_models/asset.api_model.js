@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const assetSchema = new mongoose.Schema( {
+const assetDTOSchema = new mongoose.Schema( {
     asset_id: String,
     name: String,
     type_is_crypto: Number,
@@ -20,7 +20,7 @@ const assetSchema = new mongoose.Schema( {
 } );
 
 /* transforming Schema into a Model */
-const Asset = mongoose.model('Asset', assetSchema);
+const AssetDTO = mongoose.model('Asset', assetDTOSchema);
 
 /* exporting just the Model */
-export default Asset;
+export default AssetDTO;

@@ -12,7 +12,7 @@ const assetSchema = new mongoose.Schema( {
     time_period_start: Date,
     time_period_end: Date,
     plot_rate: [Number],
-}, { collection: 'user_assets_list'} );
+}, { collection: 'user_assets'} );
 
 /* transforming Schema into a Model */
 const AssetModel = mongoose.model('AssetModel', assetSchema);
