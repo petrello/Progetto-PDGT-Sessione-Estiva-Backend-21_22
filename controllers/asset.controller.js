@@ -9,8 +9,8 @@ import {
     getPlotRate,
 } from '../helpers.js';
 import AssetModel from '../models/asset.model.js';
-import Asset from '../models/coin_api_models/asset.model.js';
-import AssetIcon from '../models/coin_api_models/asset_icon.model.js';
+import Asset from '../coin_api/coin_api_models/asset.model.js';
+import AssetIcon from '../coin_api/coin_api_models/asset_icon.model.js';
 
 // GET - ritorna la lista di asset dell'utente (home page)
 const getAllAssets = async (req, res) => {
@@ -110,6 +110,7 @@ const modifyExchangeCurrency = async (req, res) => {
         return res.status(400).send({ status: "Bad Request", message: "Body content is missing" });
 
     const asset = req.body;
+    
     // i have to reconvert ISO strings into Date objects
     asset.time_period_start = new Date(asset.time_period_start);
     asset.time_period_end = new Date(asset.time_period_end);

@@ -1,18 +1,18 @@
 // importing the dependencies
-import express from "express";
+import express    from "express";
 import bodyParser from 'body-parser';
-import cors      from 'cors';
-import helmet        from 'helmet';
-import morgan        from 'morgan';
-import mongoose      from 'mongoose';
-import dotenv        from 'dotenv';
+import cors       from 'cors';
+import helmet     from 'helmet';
+import morgan     from 'morgan';
+import mongoose   from 'mongoose';
+import dotenv     from 'dotenv';
 
 // importing routes to endpoints
 import assetRoutes from './routes/asset.routes.js';
 //import exchangeRoutes from './routes/exchange.routes.js';
 
 // importing coinAPI inizializer
-import CoinAPI from './coinapi.js';
+import CoinAPI from './coin_api/coinapi.js';
 
 // defining the Express app
 const app = express();
@@ -31,9 +31,9 @@ app.use(morgan('combined'));
 
 // setup asset routes endpoints from:  localhost:4000/asset
 //app.use('/asset', assetRoutes);
-// TODO: setup icons routes /icons
 // setup exchange routes endpoints from:  localhost:4000/exchange
 //app.use('/exchange', exchangeRoutes);
+
 // setup assets user's list routes endpoints: localhost:4000/userList
 app.use('/userList/assets', assetRoutes);
 
