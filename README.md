@@ -11,22 +11,27 @@ Lato Backend del progetto d'esame per il corso di Piattaforme Digitali per la Ge
 
 ### Descrizione e Obbiettivi
 ....
+
 ---
 
 ### Scelte implementative
-... architettura,
+... architettura
+
 ---
 
 ### Servizi usati
 ... Coin API
+
 ---
 
 ### Documentazione API
 ...
+
 ---
 
 ### Messa online
 ... es: heroku
+
 ---
 
 ### Come si utilizza
