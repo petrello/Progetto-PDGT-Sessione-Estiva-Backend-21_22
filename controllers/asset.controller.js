@@ -7,10 +7,10 @@ import {
     getPeriod,
     getPercentageChange, 
     getPlotRate,
-} from '../helpers.js';
+} from '../utils/helpers.js';
 import AssetModel from '../models/asset.model.js';
-import Asset from '../coin_api/coin_api_models/asset.model.js';
-import AssetIcon from '../coin_api/coin_api_models/asset_icon.model.js';
+import Asset from '../coin_api/coin_api_models/asset.api_model.js';
+import AssetIcon from '../coin_api/coin_api_models/asset_icon.api_model.js';
 
 // GET - ritorna la lista di asset dell'utente (home page)
 const getAllAssets = async (req, res) => {
@@ -53,8 +53,8 @@ const addNewAsset = async (req, res) => {
     // cerco l'asset in tutta la collezione
     let receivedAsset, assetIcon;
     try {
-        receivedAsset = await Asset.findOne({ asset_id: req.body.asset_id });
-        assetIcon = await AssetIcon.findOne({ asset_id: req.body.asset_id });
+        receivedAsset = await AssetDTO.findOne({ asset_id: req.body.asset_id });
+        assetIcon = await AssetIconDTO.findOne({ asset_id: req.body.asset_id });
         if(!receivedAsset || !assetIcon)
             return res.status(404).send({ status: "Not Found", message: `Asset ${req.body.asset_id} not found` });
     } catch(err) {

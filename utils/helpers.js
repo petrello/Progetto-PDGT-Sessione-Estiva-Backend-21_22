@@ -2,6 +2,16 @@ import fetch  from 'node-fetch';
 import dotenv from 'dotenv';
 dotenv.config();
 
+const getExchangeRateByAsset = async (asset_id, exchange_currency, date) =>  {
+    const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
+    + asset_id + "/" + exchange_currency 
+    + "?time=" + date.toISOString()
+    + "&apiKey=" + process.env.API_KEY);
+    const exchangerate = await response.json();
+    const price = exchangerate.rate;
+    return price;
+}
+
 export const getCurrentPrice = async (asset_id, exchange_currency, time_period_end) => {
     console.log("time period end: " + time_period_end);
     console.log("time period end ISO: " + time_period_end.toISOString());
@@ -15,21 +25,11 @@ export const getCurrentPrice = async (asset_id, exchange_currency, time_period_e
     return await getExchangeRateByAsset(asset_id, exchange_currency, time_period_end);
 }
 
-const getExchangeRateByAsset = async (asset_id, exchange_currency, date) =>  {
-    const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
-    + asset_id + "/" + exchange_currency 
-    + "?time=" + date.toISOString()
-    + "&apiKey=" + process.env.API_KEY);
-    const exchangerate = await response.json();
-    const price = exchangerate.rate;
-    return price;
-}
-
 export const get1HAgoPrice = async (asset_id, exchange_currency) => {
     var lastHour = new Date();
     lastHour.setHours(lastHour.getHours() - 1);
 
-    return await getExchangeRateByAsset(asset_id, exchange_currency, date);
+    return await getExchangeRateByAsset(asset_id, exchange_currency, lastHour);
 
     /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
     + asset_id + "/" + exchange_currency 
@@ -44,52 +44,60 @@ export const get1DAgoPrice = async (asset_id, exchange_currency) => {
     var lastDay = new Date();
     lastDay.setDate(lastDay.getDate() - 1);
 
-    const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
+    return await getExchangeRateByAsset(asset_id, exchange_currency, lastDay);
+
+    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
     + asset_id + "/" + exchange_currency 
     + "?time=" + lastDay.toISOString()
     + "&apiKey=" + process.env.API_KEY);
     const previous_exchangerate = await response.json();
     const previous_price = previous_exchangerate.rate;
-    return previous_price;
+    return previous_price; */
 }
 
 export const get1WAgoPrice = async (asset_id, exchange_currency) => {
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
 
-    const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
+    return await getExchangeRateByAsset(asset_id, exchange_currency, lastWeek);
+
+    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
     + asset_id + "/" + exchange_currency
     + "?time=" + lastWeek.toISOString()
     + "&apiKey=" + process.env.API_KEY);
     const current_exchangerate = await response.json();
     const current_price = current_exchangerate.rate;
-    return current_price;
+    return current_price; */
 }
 
 export const get1MAgoPrice = async (asset_id, exchange_currency) => {
     var lastMonth = new Date();
     lastMonth.setDate(lastMonth.getDate() - 30);
 
-    const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
+    return await getExchangeRateByAsset(asset_id, exchange_currency, lastMonth);
+
+    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
     + asset_id + "/" + exchange_currency
     + "?time=" + lastMonth.toISOString()
     + "&apiKey=" + process.env.API_KEY);
     const current_exchangerate = await response.json();
     const current_price = current_exchangerate.rate;
-    return current_price;
+    return current_price; */
 }
 
 export const get1YAgoPrice = async (asset_id, exchange_currency) => {
     var lastYear = new Date();
     lastYear.setFullYear(lastYear.getFullYear() - 1);
 
-    const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
+    return await getExchangeRateByAsset(asset_id, exchange_currency, lastYear);
+
+    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
     + asset_id + "/" + exchange_currency
     + "?time=" + lastYear.toISOString()
     + "&apiKey=" + process.env.API_KEY);
     const current_exchangerate = await response.json();
     const current_price = current_exchangerate.rate;
-    return current_price;
+    return current_price; */
 }
 
 // TRY REFACTORING THESE METHODS WITH A SWITCH

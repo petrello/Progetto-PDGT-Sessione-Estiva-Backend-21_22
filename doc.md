@@ -8,6 +8,8 @@
  
  - morgan: This package extends your Express Rest API’s logging capabilities.
 
+ - node-fetch: This module allows you to make API requests.
+
 
 ## TODO 0
 crea il modello con cui deve interagire l'utente
