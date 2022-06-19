@@ -30,7 +30,7 @@ Lato Backend del progetto d'esame per il corso di Piattaforme Digitali per la Ge
 ---
 
 ### Messa online
-... es: heroku
+Web Server disponibile al link: https://pdgt-crypto-app-api.herokuapp.com/
 
 ---
 
