@@ -34,8 +34,21 @@ app.use(morgan('combined'));
 // setup exchange routes endpoints from:  localhost:4000/exchange
 //app.use('/exchange', exchangeRoutes);
 
+app.get('/', (req, res) => {
+    res.json({'message': 'ok'});
+})
+
 // setup assets user's list routes endpoints: localhost:4000/userList
 app.use('/userList/assets', assetRoutes);
+
+/* Error handler middleware */
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    console.error(err.message, err.stack);
+    res.status(statusCode).json({'message': err.message});
+
+    return;
+});
 
 
 // setup MongoDB Atlas connection
