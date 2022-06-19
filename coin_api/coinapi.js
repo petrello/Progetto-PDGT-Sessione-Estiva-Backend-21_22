@@ -3,10 +3,10 @@ import dotenv    from 'dotenv';
 import fetch     from 'node-fetch';
 
 /* importing mongoose models */
-import Asset        from './models/coin_api_models/asset.model.js';
-import AssetIcon    from './models/coin_api_models/asset_icon.model.js';
-import Exchange     from './models/coin_api_models/exchange.model.js';
-import ExchangeIcon from './models/coin_api_models/exchange_icon.model.js';
+import Asset        from './coin_api_models/asset.api_model.js';
+import AssetIcon    from './coin_api_models/asset_icon.api_model.js';
+import Exchange     from './coin_api_models/exchange.model.js';
+import ExchangeIcon from './coin_api_models/exchange_icon.model.js';
 
 /* setting up options for GET requests */
 dotenv.config();
