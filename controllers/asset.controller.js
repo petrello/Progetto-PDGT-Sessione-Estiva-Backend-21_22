@@ -9,8 +9,8 @@ import {
     getPlotRate,
 } from '../utils/helpers.js';
 import AssetModel from '../models/asset.model.js';
-import Asset from '../coin_api/coin_api_models/asset.api_model.js';
-import AssetIcon from '../coin_api/coin_api_models/asset_icon.api_model.js';
+import AssetDTO from '../coin_api/coin_api_models/asset.api_model.js';
+import AssetIconDTO from '../coin_api/coin_api_models/asset_icon.api_model.js';
 
 // GET - ritorna la lista di asset dell'utente (home page)
 const getAllAssets = async (req, res) => {

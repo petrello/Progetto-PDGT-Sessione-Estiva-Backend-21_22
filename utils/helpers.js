@@ -21,7 +21,7 @@ export const getCurrentPrice = async (asset_id, exchange_currency, time_period_e
     + "&apiKey=" + process.env.API_KEY);
     const current_exchangerate = await response.json();
     const current_price = current_exchangerate.rate;
-    return current_price;*/
+    return current_price; */
     return await getExchangeRateByAsset(asset_id, exchange_currency, time_period_end);
 }
 
@@ -41,8 +41,11 @@ export const get1HAgoPrice = async (asset_id, exchange_currency) => {
 }
 
 export const get1DAgoPrice = async (asset_id, exchange_currency) => {
+    /* var lastDay = new Date();
+    lastDay.setDate(lastDay.getDate() - 1); */
+    //PATCH for coin api not working these days
     var lastDay = new Date();
-    lastDay.setDate(lastDay.getDate() - 1);
+    lastDay.setDate(lastDay.getDate() - 11);
 
     return await getExchangeRateByAsset(asset_id, exchange_currency, lastDay);
 
@@ -106,6 +109,8 @@ export const getPercentageChange = async (asset_id, exchange_currency, duration_
     var percentage_change = 0.0;
 
     const current_price = await getCurrentPrice(asset_id, exchange_currency, current_time);
+
+    console.log("Current price: " + current_price);
     
     let previous_price;
     switch(duration_id) {
@@ -136,12 +141,16 @@ export const getPercentageChange = async (asset_id, exchange_currency, duration_
             break;
     }
 
+    console.log("Previous price: " + previous_price);
+
     const diff = current_price - previous_price;
 
     console.log("C - " + current_price);
     console.log("P - " + previous_price);
     
     percentage_change = (diff*100) / current_price;
+
+    console.log("%%%% -> " + percentage_change);
 
     return Math.round((percentage_change + Number.EPSILON) * 100) / 100;
 }
@@ -181,7 +190,14 @@ export const getStartPeriod = (duration_id, time_period_end) => {
     return time_period_start;
 }
 
-export const getDefaultEndPeriod = () => { return new Date(); }
+export const getDefaultEndPeriod = () => { 
+    // patch for internal server error of Coin API 
+    var date = new Date();
+    date.setDate(date.getDate() - 10);
+    // prendo i dati di 5 giorni fa che coin api ancora funzionava
+    return date;
+    //return new Date(); 
+}
 
 export const getPeriod = (duration_id) => {
     var period;

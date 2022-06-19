@@ -58,7 +58,7 @@ mongoose.connect(process.env.CONNECTION_URI, { dbName:'db_test_pdgt', useNewUrlP
             console.log("connected to mongoDB Atlas, URI: " + process.env.CONNECTION_URI);
             // starting the server
             app.listen(process.env.PORT || 4000, () => {
-                console.log("server listen on port " + process.env.PORT);
+                console.log("server listen on port " + 4000);
                 
                 // to fetch all data and update MongoDB collections
                 CoinAPI();
