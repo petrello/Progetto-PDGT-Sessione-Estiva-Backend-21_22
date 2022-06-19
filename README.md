@@ -7,7 +7,7 @@ Lato Backend del progetto d'esame per il corso di Piattaforme Digitali per la Ge
 
 ---
 
-# Trading App 🦎
+# Crypto App 🦎
 
 ### Descrizione e Obbiettivi
 ....
