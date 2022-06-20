@@ -12,7 +12,10 @@ import ExchangeIcon from './coin_api_models/exchange_icon.model.js';
 dotenv.config();
 const options = {
     method: 'GET',
-    headers: {'X-CoinAPI-Key': process.env.API_KEY}
+    headers: {
+        'X-CoinAPI-Key': process.env.API_KEY,
+        'Accept-Encoding': ['deflate', 'gzip']
+    }
 }
 const host = 'https://rest.coinapi.io/v1';
 

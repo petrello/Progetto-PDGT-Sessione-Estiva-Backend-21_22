@@ -1,8 +1,8 @@
 ## Sampling Conventions
 
 | DURATION_ID         | PERIOD_ID               |
-| :-----------------: | :---------------------: | 
-| 1HRS -> 1 ora       | 2MIN -> ogni 2 minuti   | 
+| :-----------------: | :---------------------: |
+| 1HRS -> 1 ora       | 2MIN -> ogni 2 minuti   |
 | 1DAY -> 1 giorno    | 1HRS -> ogni ora        |
 | 1WEK -> 1 settimana | 8HRS -> ogni 8 ore      |
 | 1MTH -> 1 mese      | 1DAY -> ogni giorno     |

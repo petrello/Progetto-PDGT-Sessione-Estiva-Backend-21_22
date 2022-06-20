@@ -27,7 +27,8 @@ app.use(cors());
 
 // root endpoint -> segnala che il server è attivo
 app.get('/', (req, res) => {
-    res.json({'message': 'Server is working!'});
+    //res.json({'message': 'Server is working!'});
+    res.render('./views/index.html');
 })
 
 // setup assets user's list routes endpoints: localhost:4000/userList/assets
