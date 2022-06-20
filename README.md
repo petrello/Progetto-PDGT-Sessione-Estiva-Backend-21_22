@@ -14,17 +14,24 @@ Il progetto **Crypto App** consiste in un servizio web utile per accedere in tem
 
 Grazie a **Crypto App** un utente che farà utilizzo delle funzionalità del web server, attraverso un client appostio, potrà raggiungere i seguenti obbiettivi:
 1. La possibilità di avere tutte le proprie criptovalute preferite in un unico posto
-2. Per ogni criptovaluta, avere accesso ad informazioni dettagliate
-3. La possibilità di accedere allo storico di una criptovaluta fino ad un anno da oggi
+2. Avere accesso ad informazioni dettagliate
+3. Poter accedere allo storico di una criptovaluta fino ad un anno da oggi
 4. La possiblità di cambiare la valuta di conversione
 
-Il client a disposizione dell'utente sarà un'applicazione cross-platform sviluppata utilizzando il framework Flutter.
-Documentazione applicazione client: [Crypto App Client](https://github.com/petrello/Progetto-PDGT-Sessione-Estiva-Frontend-21_22)
+Il client a disposizione dell'utente sarà un'applicazione cross-platform sviluppata utilizzando il framework Flutter. 
+Applicazione client: [Crypto App Client](https://github.com/petrello/Progetto-PDGT-Sessione-Estiva-Frontend-21_22)
 
 ---
 
-### Scelte implementative
-... architettura
+### Architettura e Scelte implementative
+L'architettura per la costruzione del servizio si basa sul paradigma RESTful ed è strutturata in 2 livelli fondamentali: Controller e Model.
+
+
+
+
+componenti
+software, comunicazione tra componenti, tecnologie adottate,
+librerie, scelte implementative di rilievo, etc.
 
 ---
 
@@ -35,11 +42,13 @@ Documentazione applicazione client: [Crypto App Client](https://github.com/petre
 
 ### Documentazione API
 ...
+vedi anche documentazione Coin API per codici e convenzioni da usare!!
 
 ---
 
 ### Messa online
-Web Server disponibile al link: https://pdgt-crypto-app-api.herokuapp.com/
+Per il rilascio online del servizio web è stato scelto il servizio di hosting Heroku.
+isponibile al link: https://pdgt-crypto-app-api.herokuapp.com/
 
 ---
 
