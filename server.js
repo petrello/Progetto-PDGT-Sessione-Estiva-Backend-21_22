@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
     res.json({'message': 'ok'});
 })
 
-// setup assets user's list routes endpoints: localhost:4000/userList
+// setup assets user's list routes endpoints: localhost:4000/userList/assets
 app.use('/userList/assets', assetRoutes);
 
 /* Error handler middleware */
