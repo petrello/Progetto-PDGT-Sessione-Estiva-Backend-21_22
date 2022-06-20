@@ -3,7 +3,6 @@ import express    from "express";
 import bodyParser from 'body-parser';
 import cors       from 'cors';
 import helmet     from 'helmet';
-import morgan     from 'morgan';
 import mongoose   from 'mongoose';
 import dotenv     from 'dotenv';
 
@@ -26,16 +25,9 @@ app.use(bodyParser.json());
 // enabling CORS for all requests
 app.use(cors());
 
-// adding morgan to log HTTP requests
-app.use(morgan('combined'));
-
-// setup asset routes endpoints from:  localhost:4000/asset
-//app.use('/asset', assetRoutes);
-// setup exchange routes endpoints from:  localhost:4000/exchange
-//app.use('/exchange', exchangeRoutes);
-
+// root endpoint -> segnala che il server è attivo
 app.get('/', (req, res) => {
-    res.json({'message': 'ok'});
+    res.json({'message': 'Server is working!'});
 })
 
 // setup assets user's list routes endpoints: localhost:4000/userList/assets
