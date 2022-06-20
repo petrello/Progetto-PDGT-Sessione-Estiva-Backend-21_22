@@ -45,8 +45,10 @@ Il gestore dei pacchetti utilizzato è **npm** (Node Package Manager).
 
 * **node-fetch**: modulo che permette di utilizzare lato server Fetch API, cioè una interfaccia standard che mi permette di fare il fetching delle risorse attraverso la rete.
 * **helmet**: è un middleware Express che aiuta a rendere un'applicazione web più sicura impostando diversi header HTTP.
-* **body-parser**: è un middleware Node.js in grado di riconoscere il `body` di una richiesta ricevuta (`req.body`). Tra i parser a disposizione abbiamo soprattutto quello JSON.
+* **body-parser**: è un middleware Node.js in grado di riconoscere il `body` di una richiesta ricevuta (`req.body`). Tra i parser a disposizione abbiamo soprattutto quello JSON che possiamo utilizzare per ottenere un `JavaScript Object`.
 * **cors**: pacchetto Node.js che fornisce un middleware da usare con Express per abilitare CORS (Cross-Origin Resource Sharing), ossia un meccanismo basatto sugli header HTTP che permette di stabilire da quali sorgenti accettare le richieste (in questo caso diciamo ad Express di accettare richieste da qualasiasi fonte).
+* **mongoose**: è un pacchetto che mi consente di modellare gli oggetti in un modo orientato a Mongo DB Atlas (chiamati `document`). Fornisce anche dei meccanismi per lavorare con i documenti del Cluster, anche in modo asincrono.
+* **dotenv**: permette di caricare nell'oggetto `process.env` le variabili di ambiente specificate in un file `.env` presente nella root dell'applicazione. Verrà utilizzato solo per lo sviluppo locale.
 
 ---
 
