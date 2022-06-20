@@ -113,9 +113,22 @@ Esempi:
 #### HTTP headers
 Tutte le richieste verranno evase fornendo il corpo della risposta in formato JSON. Inoltre, si richiede che il corpo della richiesta sia a sua volta codificato in JSON: `Accept: application/json`.
 
+#### Endpoints
+* **/ (root)**  
+Contattando questo endpoint possiamo verificare lo stato del server. Infatti, il server ci restituirà, se attivo, una pagina HTML con cui vuole segnalare ai Client che è in esecuzione ed è in grado di ricevere richieste.  
+<div align="center"><a><img src='images/root_page.jpeg' height='300' alt='server root HTML page'/></a></div>
+
+* **/userList/assets**:
+  * **GET**:
+    * **/**:
+    * **/:asset_id**:
+  * **POST**:
+  * **PUT**:
+  * **DELETE**:
+
 ---
 
-### Messa online 
+### Deployment del servizio 
 Il servizio web è disponibile al link: https://pdgt-crypto-app-api.herokuapp.com/
 
 ---
