@@ -53,7 +53,26 @@ Il gestore dei pacchetti utilizzato è **npm** (Node Package Manager).
 ---
 
 ### Dati e Servizi esterni utilizzati
-... Coin API
+Proseguendo in questo paragrafo possiamo pensare di aggiungere all'architettura dell'applicazione un terzo livello: **[CoinAPI](https://www.coinapi.io/)**.  
+
+Tutti i dati riguardanti le criptovalute li possiamo ricavare attraverso delle richieste GET mandate dal nostro server alla API di CoinAPI. In particolare, ci interessa ottenere una lista di tutti gli *Asset* disposibili, delle *Icon Asset* corrispondenti, degli *Exchangerate*, ed infine della *History* di ognuno di essi.
+
+> Nota che chiameremo con il termine *Asset* le criptovalute.
+
+Per rendere il più indipendente possibile l'applicazione web dal servizio di CoinAPI, tutti i dati ottenuti verranno memorizzati in Collection su Mongo DB Atlas. Il Client non interagirà mai direttamente con CoinAPI perché il server web è stato strutturato in maniera tale da porre un livello intermedio tra richiesta del Client, fetch dei dati dalle Collection o da CoinAPI, e risposta del server.  
+A questo scopo utilizziamo i DTO di cui abbiamo parlato nei paragrafi precedenti. CoinAPI restituisce tutti i dati sotto il formato JSON, per cui, grazie a body-parser e ai DTO, possiamo mappare tutti i dati in formato JSON nel formato JavaScript Object (qui interviene body-parser) e poi ancora trasformarli nel mongoose schema (qui invervengono i DTO).
+
+CoinAPI fornisce diverse interfacce di comunicazione ma capiamo che quella adatta all'applicazione è quella RESTful. Infatti, se vogliamo avere indipendenza dal servizio non possiamo aprire Socket per richiedere i dati in real-time.
+
+#### Come rendere disponibili i dati aggiornati al Client? 
+La soluzione adottata consiste nell'aggiornare i dati o popolare nuove Collection di dati ogni qual volta il servizio web viene richiesto da qualcuno, ossia quando registriamo almeno una connessione alle collezioni di Mongo DB Atlas. Quando il servizio web si attiva controllerà tutte le informazioni a disposizione sul Cluster di Atlas e deciderà se è necessario aggiungere o aggiornare gli Asset.
+
+#### I dati saranno affidabili?  
+Possiamo permetterci di avere alcuni dati mantenuti con periodi di aggiornamento non costanti nel tempo. Pensiamo ad un Asset come un'entità statica dotata di elementi idenificativi come il nome o l'icona, la data di creazione, oppure la valuta di conversione. Sono tutti aspetti di un Asset che possiamo considerare "stabili" nel tempo, o comunque variabili in un tempo aleatorio.
+
+Il discorso però non vale in modo assoluto. Un Asset ha anche un aspetto particolarmente dinamico, pensiamo ad esempio all'andamento del prezzo. Saranno per casi come questo in cui non sarà possibile avere indipendenza dai serivizi di CoinAPI in quanto è ragionevole pensare che il Client voglia avere accesso agli utlimi dati storici, come i tassi di conversione, i prezzi, ecc. Il servizio web ha bisogno di metodi ausiliari che permetteranno di aggiornare ad ogni richiesta del Client i dati di cui abbiamo bisogno e fornirli aggiornati all'istante di ricezione della richiesta.
+
+La logica che permette di avere un aggiornamento real-time dei dati è tutta contenuta nel componente che abbiamo chiamato **Helpers**.
 
 ---
 
