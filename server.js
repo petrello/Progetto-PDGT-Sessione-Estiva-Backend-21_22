@@ -31,9 +31,7 @@ app.use(cors());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// View engine setup
-app.set('view engine', 'html');
-app.set('views', __dirname);
+app.use(express.static(path.join(__dirname, 'views')));
 // root endpoint -> segnala che il server è attivo
 app.get('/', (req, res) => {
     //res.json({'message': 'Server is working!'});
