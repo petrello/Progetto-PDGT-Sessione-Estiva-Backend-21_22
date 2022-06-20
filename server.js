@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // View engine setup
-app.set('view engine', 'ejs');
+app.set('view engine', 'html');
 // root endpoint -> segnala che il server è attivo
 app.get('/', (req, res) => {
     //res.json({'message': 'Server is working!'});
