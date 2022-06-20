@@ -77,8 +77,41 @@ La logica che permette di avere un aggiornamento real-time dei dati è tutta con
 ---
 
 ### Documentazione API
-...
-vedi anche documentazione Coin API per codici e convenzioni da usare!!
+L'API fornita dal servisio web si basa sul meccanismo RESTful aderendo quindi allo schema di comunicaizone Request-Response.
+
+Tutte le operazioni CRUD verranno fatte sugli Asset che l'utente che usa il servizio mette nella sua lista dei preferiti. Non verranno toccate, se non per aggiorarle tramite CoinAPI, le Collection contenenti tutti gli Asset.  
+Allora, ad esempio, quando diciamo "creare" si intende aggiungere un nuovo asset alla lista dei preferiti; quando diciamo "eliminare" si intende eliminare un asset dalla lista dei preferiti.
+
+#### HTTP success
+| Response Code | Messaggio | Significato |
+| :-----------: | :-------: | :--------- |
+| 200 | OK | La richiesta è stata evasa correttamente | 
+| 201 | Created | La risorsa fornita nel body è stato creata |
+| 204 | No Content | La collezione di risorse richieste esiste ma è vuota |
+
+Esempi:
+* Ho richiesto dei dettagli per l'Asset BTC (Bitcoin), li ho trovati e sono stati inviati al Client correttamente => 200 OK.
+* Il Client vuole aggiungere l'Asset ETH (Ethereum) alla sua lista di cripto preferite, lo creo, lo salvo nel database, e ritorno al Client l'oggetto creato => 201 Created.
+* Il Client accede alla schermata Home per vedere tutte le sue cripto ma la lista è vuota => 204 No Content.
+
+#### HTTP errors
+| Response Code | Messaggio | Significato |
+| :-----------: | :-------: | :--------- |
+| 400 | Bad Request | Errore generico dovuto ad un errore nella richiesta del client |
+| 403 | Forbidden | La risorsa che si vuole creare è già presente nella lista |
+| 404 | Not Found | La risorsa a cui si vuole accedere non esiste |
+| 409 | Conflict | Qualcosa è andato storto durante la creazione della risorsa |
+| 500 | Internal Server Error | Si è presentata una condizione anomala che non ha permesso al server di evadere la richiesta |
+
+Esempi:
+* Il Client invia una richiesta con un body non idoneo in quanto ha richiesto i dettagli di un asset chiamato '' (nome non specificato) => 400 Bad Request.
+* Il Client richiede di creare BTC come nuovo asset ma esiste già tra i preferiti => 403 Forbidden.
+* Il Client richiede informazioni sull'asset LTC (Litecoin), ma non è presente nella lista dei preferiti => 404 Not Found.
+* Viene generata un'eccezzione durante la creazione di un asset => 409 Conflict.
+* Viene generata un'eccezione durante l'eliminazione di un asset => 500 Internal Server Error.
+
+#### HTTP headers
+Tutte le richieste verranno evase fornendo il corpo della risposta in formato JSON. Inoltre, si richiede che il corpo della richiesta sia a sua volta codificato in JSON: `Accept: application/json`.
 
 ---
 
@@ -88,4 +121,4 @@ Il servizio web è disponibile al link: https://pdgt-crypto-app-api.herokuapp.co
 ---
 
 ### Come si utilizza
-... screnshot, test
+screnshot, test, gif, video ...
