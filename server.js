@@ -6,6 +6,9 @@ import helmet     from 'helmet';
 import mongoose   from 'mongoose';
 import dotenv     from 'dotenv';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 // importing routes to endpoints
 import assetRoutes from './routes/asset.routes.js';
 //import exchangeRoutes from './routes/exchange.routes.js';
@@ -25,6 +28,9 @@ app.use(bodyParser.json());
 // enabling CORS for all requests
 app.use(cors());
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // View engine setup
 app.set('view engine', 'html');
 app.set('views', __dirname);
@@ -54,7 +60,7 @@ mongoose.connect(process.env.CONNECTION_URI, { dbName:'db_test_pdgt', useNewUrlP
             console.log("connected to mongoDB Atlas, URI: " + process.env.CONNECTION_URI);
             // starting the server
             app.listen(process.env.PORT || 4000, () => {
-                console.log("server listen on port " + 4000);
+                console.log("server listen on port " + process.env.PORT);
                 
                 // to fetch all data and update MongoDB collections
                 CoinAPI();
