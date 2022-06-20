@@ -27,10 +27,11 @@ app.use(cors());
 
 // View engine setup
 app.set('view engine', 'html');
+app.set('views', __dirname);
 // root endpoint -> segnala che il server è attivo
 app.get('/', (req, res) => {
     //res.json({'message': 'Server is working!'});
-    res.render('./views/index.html');
+    res.render(__dirname + '/views/index.html');
 })
 
 // setup assets user's list routes endpoints: localhost:4000/userList/assets
