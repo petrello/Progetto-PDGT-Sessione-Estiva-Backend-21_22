@@ -34,14 +34,23 @@ Il secondo livello fondamentale è il **Model**. A questo livello vogliamo comun
 
 
 #### Tecnologie adottate
-
+* **Node.js**: ambiente utilizzato per implementare il servizio web.
+* **Express**: framework per applicazioni web seguito per progettare l'architettura dell'API.
+* **Mongo DB Atlas**: piattaforma dati applicativi multi-cloud utilizzata per la memoriazzazione e la gestione dei dati.
+* **Heroku**: piattaforma cloud PaaS (Platform as a Service) utilizzata per la messa online (deploy) del servizio web.
+* **Flutter**: framework cross-platform utilizzato per costruire l'applicazione client.
 
 #### Librerie utilizzate
+Il gestore dei pacchetti utilizzato è **npm** (Node Package Manager).
 
+* **node-fetch**: modulo che permette di utilizzare lato server Fetch API, cioè una interfaccia standard che mi permette di fare il fetching delle risorse attraverso la rete.
+* **helmet**: è un middleware Express che aiuta a rendere un'applicazione web più sicura impostando diversi header HTTP.
+* **body-parser**: è un middleware Node.js in grado di riconoscere il `body` di una richiesta ricevuta (`req.body`). Tra i parser a disposizione abbiamo soprattutto quello JSON.
+* **cors**: pacchetto Node.js che fornisce un middleware da usare con Express per abilitare CORS (Cross-Origin Resource Sharing), ossia un meccanismo basatto sugli header HTTP che permette di stabilire da quali sorgenti accettare le richieste (in questo caso diciamo ad Express di accettare richieste da qualasiasi fonte).
 
 ---
 
-### Servizi usati
+### Dati e Servizi esterni utilizzati
 ... Coin API
 
 ---
@@ -52,9 +61,8 @@ vedi anche documentazione Coin API per codici e convenzioni da usare!!
 
 ---
 
-### Messa online
-Per il rilascio online del servizio web è stato scelto il servizio di hosting Heroku.   
-Disponibile al link: https://pdgt-crypto-app-api.herokuapp.com/
+### Messa online 
+Il servizio web è disponibile al link: https://pdgt-crypto-app-api.herokuapp.com/
 
 ---
 
