@@ -38,7 +38,7 @@ const getAssetById = async (req, res) => {
             res.status(404).send({ status: "Not Found", message: `Asset ${asset_id} not found` });
 
     } catch(err) {
-        res.status(400).send({ status: "Bad Request", message: err.message });
+        res.status(500).send({ status: "Internal Server Error", message: err.message });
     }
 }
 
@@ -183,20 +183,20 @@ const modifyTimePeriod = async (req, res) => {
 
 // DELETE - elminia un asset specificato dall'utente
 const deleteAssetById = async (req, res) => {
-    const { id: _id } = req.params;
+    const { asset_id: asset_id } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(_id)) 
-        return res.status(404).send({ status: "Not Found", message: "No asset found with that id" });
-
-    let deletedAsset;
+    /* if(!mongoose.Types.ObjectId.isValid(_id)) 
+        return res.status(404).send({ status: "Not Found", message: "No asset found with that id" }); */
 
     try {
-        deletedAsset = await AssetModel.findByIdAndRemove(_id);
+        const deletedAsset = await AssetModel.findOneAndRemove({ asset_id: asset_id });
+        if(deletedAsset)
+            res.status(200).send({ status:"OK", data: deletedAsset });
+        else
+            res.status(404).send({ status: "Not Found", message: `Asset ${asset_id} not found` });
     } catch(err) {
-        return res.status(500).send({ status: "Internal Server Error", message: err.message });
+        res.status(500).send({ status: "Internal Server Error", message: err.message });
     }
-
-    res.status(200).send({ status:"OK", data: deletedAsset });
 }
 
 export default {

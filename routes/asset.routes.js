@@ -15,6 +15,6 @@ router.put('/:asset_id',    AssetController.modifyExchangeCurrency);
 router.put('/:asset_id',    AssetController.modifyTimePeriod);
 
 // DELETE ROUTES
-router.delete('/:id', AssetController.deleteAssetById);
+router.delete('/:asset_id', AssetController.deleteAssetById);
 
 export default router;
