@@ -132,7 +132,6 @@ const modifyExchangeCurrency = async (req, res) => {
                 exchange_currency: asset.exchange_currency,
                 plot_rate: await getPlotRate(asset_id, asset.exchange_currency, asset.period_id, asset.time_period_start, asset.time_period_end) */
                 percentage_change: await getPercentageChange(asset_id, exchange_currency, duration_id, new Date(time_period_end)),
-                time_period_end: new Date(time_period_end),
                 price: await getCurrentPrice(asset_id, exchange_currency, new Date(time_period_end)),
                 exchange_currency: exchange_currency,
                 plot_rate: await getPlotRate(asset_id, exchange_currency, period_id, new Date(time_period_start), new Date(time_period_end))

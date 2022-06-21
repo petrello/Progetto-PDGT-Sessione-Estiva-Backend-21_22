@@ -176,7 +176,7 @@ export const getStartPeriod = (duration_id, time_period_end) => {
             break;
         case "1DAY":
             console.log(duration_id);
-            time_period_start.setDate(time_period_start.getDate() - 1);
+            time_period_start.setDate(time_period_start.getDate() - 6);
             break;
         case "1WEK":
             console.log(duration_id);
