@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
     res.render(__dirname + '/views/index.html');
 })
 
-// setup assets user's list routes endpoints: localhost:4000/userList/assets
+// setup assets user's list routes endpoints
 app.use('/userList/assets', assetRoutes);
 
 /* Error handler middleware */

@@ -13,8 +13,8 @@ const getExchangeRateByAsset = async (asset_id, exchange_currency, date) =>  {
 }
 
 export const getCurrentPrice = async (asset_id, exchange_currency, time_period_end) => {
-    console.log("time period end: " + time_period_end);
-    console.log("time period end ISO: " + time_period_end.toISOString());
+    console.log("getCurrentPrice - time period end: " + time_period_end);
+    console.log("getCurrentPrice - time period end ISO: " + time_period_end.toISOString());
     /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
     + asset_id + "/" + exchange_currency
     + "?time=" + time_period_end.toISOString()
@@ -41,11 +41,11 @@ export const get1HAgoPrice = async (asset_id, exchange_currency) => {
 }
 
 export const get1DAgoPrice = async (asset_id, exchange_currency) => {
-    /* var lastDay = new Date();
-    lastDay.setDate(lastDay.getDate() - 1); */
-    //PATCH for coin api not working these days
     var lastDay = new Date();
-    lastDay.setDate(lastDay.getDate() - 11);
+    lastDay.setDate(lastDay.getDate() - 1);
+    /* //PATCH for coin api not working these days
+    var lastDay = new Date();
+    lastDay.setDate(lastDay.getDate() - 11); */
 
     return await getExchangeRateByAsset(asset_id, exchange_currency, lastDay);
 
@@ -110,9 +110,13 @@ export const getPercentageChange = async (asset_id, exchange_currency, duration_
 
     const current_price = await getCurrentPrice(asset_id, exchange_currency, current_time);
 
-    console.log("Current price: " + current_price);
+    console.log("getPercentageChange - Current price: " + current_price);
+    console.log("getPercentageChange - Current price: " + current_time);
+    const previous_date = getStartPeriod(duration_id, current_time);
+    console.log("getPercentageChange - DATA previusooo"+previous_date);
+    const previous_price = await getExchangeRateByAsset(asset_id, exchange_currency, previous_date);
     
-    let previous_price;
+    /* let previous_price;
     switch(duration_id) {
         case "1HRS":
             
@@ -139,7 +143,7 @@ export const getPercentageChange = async (asset_id, exchange_currency, duration_
     console.log(duration_id);
             previous_price = await get1YAgoPrice(asset_id, exchange_currency);
             break;
-    }
+    } */
 
     console.log("Previous price: " + previous_price);
 
@@ -163,7 +167,7 @@ export const getDefaultStartPeriod = () => {
 
 export const getStartPeriod = (duration_id, time_period_end) => {
     var time_period_start;
-    time_period_start = time_period_end;
+    time_period_start = new Date(time_period_end);
 
     switch(duration_id) {
         case "1HRS":
@@ -191,12 +195,12 @@ export const getStartPeriod = (duration_id, time_period_end) => {
 }
 
 export const getDefaultEndPeriod = () => { 
-    // patch for internal server error of Coin API 
+    /* // patch for internal server error of Coin API 
     var date = new Date();
     date.setDate(date.getDate() - 10);
     // prendo i dati di 5 giorni fa che coin api ancora funzionava
-    return date;
-    //return new Date(); 
+    return date; */
+    return new Date(); 
 }
 
 export const getPeriod = (duration_id) => {
@@ -240,7 +244,7 @@ export const getPlotRate = async (asset_id, exchange_currency, period_id, time_p
     console.log("START ISO: " + time_period_start.toISOString());
     console.log("END ISO: " + time_period_end.toISOString());
 
-    const response = await fetch(`https://rest.coinapi.io/v1/exchangerate/${asset_id}/${exchange_currency}/history?period_id=${period_id}&time_start=${time_period_start.toISOString()}&time_end=${time_period_end.toISOString()}&apikey=BE6D370D-7FB6-45C5-81A3-AE07C8646C9E`);
+    const response = await fetch(`https://rest.coinapi.io/v1/exchangerate/${asset_id}/${exchange_currency}/history?period_id=${period_id}&time_start=${time_period_start.toISOString()}&time_end=${time_period_end.toISOString()}&&apiKey=${process.env.API_KEY}`);
 
     const exchangerateList = await response.json();
 

@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { 
     getCurrentPrice, 
     getDefaultEndPeriod,  
@@ -64,8 +63,11 @@ const addNewAsset = async (req, res) => {
     // se lo trovo allora posso usarlo per costruire
     // il nuovo asset
 
-    const defaultstartPeriod = getDefaultStartPeriod();
+    const defaultStartPeriod = getDefaultStartPeriod();
     const defaultEndPeriod = getDefaultEndPeriod();
+
+    console.log("CREATE ASSET - def start period: " + defaultStartPeriod);
+    console.log("CREATE ASSET - def end period: " + defaultEndPeriod);
 
     const asset = {
         // a new asset will be inizialized with default attribute
@@ -78,9 +80,9 @@ const addNewAsset = async (req, res) => {
         exchange_currency: "USD",
         period_id: "1HRS",
         duration_id: "1DAY", 
-        time_period_start: defaultstartPeriod,
+        time_period_start: defaultStartPeriod,
         time_period_end: defaultEndPeriod,
-        plot_rate: await getPlotRate(receivedAsset.asset_id, "USD", "1HRS", defaultstartPeriod, defaultEndPeriod)
+        plot_rate: await getPlotRate(receivedAsset.asset_id, "USD", "1HRS", defaultStartPeriod, defaultEndPeriod)
     }
 
     const assetExists = await AssetModel.exists({ asset_id: receivedAsset.asset_id });
@@ -109,33 +111,42 @@ const modifyExchangeCurrency = async (req, res) => {
     if (!req.body)
         return res.status(400).send({ status: "Bad Request", message: "Body content is missing" });
 
-    const asset = req.body;
+    /* const asset = req.body;
     
     // i have to reconvert ISO strings into Date objects
     asset.time_period_start = new Date(asset.time_period_start);
-    asset.time_period_end = new Date(asset.time_period_end);
+    asset.time_period_end = new Date(asset.time_period_end); */
+
+    /* OPTION 2 */
+    const { exchange_currency, duration_id,
+            time_period_end, period_id, time_period_start } = req.body;
 
     let changedAsset;
     try {
         changedAsset = await AssetModel.findOneAndUpdate(
             { asset_id: asset_id },
             { 
-                percentage_change: await getPercentageChange(asset_id, asset.exchange_currency, asset.duration_id, asset.time_period_end),
+                /* percentage_change: await getPercentageChange(asset_id, asset.exchange_currency, asset.duration_id, asset.time_period_end),
                 time_period_end: asset.time_period_end,
                 price: await getCurrentPrice(asset_id, asset.exchange_currency, asset.time_period_end),
                 exchange_currency: asset.exchange_currency,
-                plot_rate: await getPlotRate(asset_id, asset.exchange_currency, asset.period_id, asset.time_period_start, asset.time_period_end)
+                plot_rate: await getPlotRate(asset_id, asset.exchange_currency, asset.period_id, asset.time_period_start, asset.time_period_end) */
+                percentage_change: await getPercentageChange(asset_id, exchange_currency, duration_id, new Date(time_period_end)),
+                time_period_end: new Date(time_period_end),
+                price: await getCurrentPrice(asset_id, exchange_currency, new Date(time_period_end)),
+                exchange_currency: exchange_currency,
+                plot_rate: await getPlotRate(asset_id, exchange_currency, period_id, new Date(time_period_start), new Date(time_period_end))
+
             },
             { new: true }
         );
+        if(!changedAsset)
+            res.status(404).send({ status: "Not Found", message: `Asset ${asset_id} not found` });
+        else
+            res.status(200).send({ status: "OK", data: changedAsset });
     } catch(err) {
-        return res.status(500).send({ status: "Internal Server Error", message: err.message });
+        res.status(500).send({ status: "Internal Server Error", message: err.message });
     }
-
-    if(!changedAsset)
-        res.status(404).send({ status: "Not Found", message: `Asset ${asset_id} not found` });
-    else
-        res.status(200).send({ status: "OK", data: changedAsset });
 }
 
 // PUT - cambia periodo in cui plottiamo il grafico
