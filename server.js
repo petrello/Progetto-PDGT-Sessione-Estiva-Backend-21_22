@@ -59,7 +59,7 @@ mongoose.connect(process.env.CONNECTION_URI, { dbName:'db_test_pdgt', useNewUrlP
             // starting the server
             app.listen(process.env.PORT || 4000, () => {
                 console.log("server listen on port " + process.env.PORT);
-                
+
                 // to fetch all data and update MongoDB collections
                 CoinAPI();
             });

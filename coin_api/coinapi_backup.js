@@ -36,8 +36,18 @@ const checkEmptyDB = async () => {
     you can call Query#clone() to clone the query and re-execute it.
     */
 
+    /* CHECKING EXCHANGES COLLECTION */
+    const exchangesCounter = await Exchange.countDocuments((err, count) => {
+        if(count > 0) {
+            console.log("Found Records for Exchange: " + count);
+        }
+        else {
+            console.log("No Found Records.");
+        }
+    }).clone().catch(err => console.log(err));
+
     /* CHECKING ASSET ICONS COLLECTION */
-    const assetIconsCounter = await AssetIconDTO.countDocuments((err, count) => {
+    const assetIconsCounter = await AssetIcon.countDocuments((err, count) => {
         if(count > 0) {
             console.log("Found Records for Asset Icons: " + count);
         }
@@ -46,7 +56,17 @@ const checkEmptyDB = async () => {
         }
     }).clone().catch(err => console.log(err));
 
-    return { assetsCounter, assetIconsCounter };
+    /* CHECKING EXCHANGE ICONS COLLECTION */
+    const exchangeIconsCounter = await ExchangeIcon.countDocuments((err, count) => {
+        if(count > 0) {
+            console.log("Found Records for Exchange Icons: " + count);
+        }
+        else {
+            console.log("No Found Records.");
+        }
+    }).clone().catch(err => console.log(err));
+
+    return { assetsCounter, exchangesCounter, assetIconsCounter, exchangeIconsCounter };
 }
 
 /**
@@ -57,7 +77,7 @@ const getAllAssetIcons = async () => {
     const assetIconsList = await response.json();
     console.log('Sto facendo il fetch, attendere...');
     assetIconsList.forEach(assetIcon => {
-        const newAssetIcon = new AssetIconDTO(assetIcon);
+        const newAssetIcon = new AssetIcon(assetIcon);
         newAssetIcon.save();
         console.log(newAssetIcon.exchange_id, 'salvato');
     });
@@ -83,10 +103,50 @@ const updateAllAssetIcons = async () => {
         }
     })
 
-    AssetIconDTO.bulkWrite(bulkAssetIcons).then((res) => {
+    AssetIcon.bulkWrite(bulkAssetIcons).then((res) => {
         console.log("Documents Asset Icons Updated", res.modifiedCount)
     })
 }
+
+/**
+ * API METHODS FOR FETCHING ICONS
+ */
+const getAllExchangeIcons = async () => {
+    const response = await fetch(host + '/exchanges/icons/64', options);
+    const exchangeIconsList = await response.json();
+    console.log('Sto facendo il fetch, attendere...');
+    exchangeIconsList.forEach(exchangeIcon => {
+        const newExchangeIcon = new ExchangeIcon(exchangeIcon);
+        newExchangeIcon.save();
+        console.log(newExchangeIcon.exchange_id, 'salvato');
+        
+    });
+}
+const updateAllExchangeIcons = async () => {
+    const response = await fetch(host + '/assets/icons/64', options);
+    const exchangeIconsList = await response.json();
+    console.log('sto aggionrando le icone degli exchange, attendere...');
+    const bulkExchangeIcons = exchangeIconsList.map(exchangeIcon => {
+        return {
+            updateOne: {
+                filter: {
+                    exchange_id: exchangeIcon.exchange_id
+                },
+                update: {
+                    $set : {
+                        exchange_id: exchangeIcon.exchange_id,
+                        url: exchangeIcon.url,
+                    }
+                }
+            }
+        }
+    })
+
+    ExchangeIcon.bulkWrite(bulkExchangeIcons).then((res) => {
+        console.log("Documents Exchange Icons Updated", res.modifiedCount)
+    })
+}
+
 
 /**
  * API METHODS FOR FETCHING ASSETS
@@ -96,7 +156,7 @@ const getAllAssets = async () => {
     const assetsList = await response.json();
     console.log('Sto facendo il fetch, attendere...');
     assetsList.forEach(asset => {
-        const newAsset = new AssetDTO(asset);
+        const newAsset = new Asset(asset);
         newAsset.save();
         console.log(newAsset.name, 'salvato');
     });
@@ -136,8 +196,61 @@ const updateAllAssets = async () => {
         }
     })
 
-    AssetDTO.bulkWrite(bulkAssets).then((res) => {
+    Asset.bulkWrite(bulkAssets).then((res) => {
         console.log("Documents Assets Updated", res.modifiedCount)
+    })
+}
+
+/**
+ * API METHODS FOR FETCHING EXCHANGES
+ */
+const getAllExchanges = async () => {
+
+    const response = await fetch(host + '/exchanges', options);
+    const exchangesList = await response.json();
+    console.log('Sto facendo il fetch degli Exchanges, attendere...');
+    exchangesList.forEach(exchange => {
+        //console.log(exchange.name);
+        const newExchange = new Exchange(exchange);
+        newExchange.save();
+        console.log(newExchange.name, 'salvato');
+    });
+}
+
+const updateAllExchanges = async () => {
+    const response = await fetch(host + '/exchanges', options);
+    const exchangesList = await response.json();
+    console.log('sto aggionrando gli Exchanges, attendere...');
+    const bulkExchanges = exchangesList.map(exchange => {
+        return {
+            updateOne: {
+                filter: {
+                    exchange_id: exchange.exchange_id
+                },
+                update: {
+                    $set : {
+                        exchange_id: exchange.exchange_id,
+                        website: exchange.website,
+                        name: exchange.name,
+                        data_start: exchange.data_start,
+                        data_end: exchange.data_end,
+                        data_quote_start: exchange.data_quote_start,
+                        data_quote_end: exchange.data_quote_end,
+                        data_orderbook_start: exchange.data_orderbook_start,
+                        data_orderbook_end: exchange.data_orderbook_end,
+                        data_trade_start: exchange.data_trade_start,
+                        data_trade_end: exchange.data_trade_end,
+                        data_symbols_count: exchange.data_symbols_count,
+                        volume_1hrs_usd: exchange.volume_1hrs_usd,
+                        volume_1day_usd: exchange.volume_1day_usd,
+                        volume_1mth_usd: exchange.volume_1mth_usd
+                    }
+                }
+            }
+        }
+    })
+    Exchange.bulkWrite(bulkExchanges).then((res) => {
+        console.log("Documents Exchange Updated", res.modifiedCount)
     })
 }
 
@@ -145,10 +258,12 @@ export default async function () {
 
     let { 
         assetsCounter, 
-        assetIconsCounter
+        exchangesCounter, 
+        assetIconsCounter, 
+        exchangeIconsCounter 
     } = await checkEmptyDB();
     
-    if(assetsCounter > 0) {
+    /* if(assetsCounter > 0) {
         console.log('Assets da aggiornare');
         updateAllAssets(); 
     } else {
@@ -156,12 +271,27 @@ export default async function () {
         getAllAssets();
     }
     
+    if(exchangesCounter > 0) {
+        console.log('Exchanges da aggiornare');
+        updateAllExchanges(); 
+    } else {
+        console.log('Exchanges da popolare');
+        getAllExchanges();
+    } */
+
+    /* if(exchangeIconsCounter > 0) {
+        console.log('Exchange Icons da aggiornare');
+        updateAllExchangeIcons(); 
+    } else {
+        console.log('Exchange Icons da popolare');
+        getAllExchangeIcons();
+    }
     if(assetIconsCounter > 0) {
         console.log('Asset Icons da aggiornare');
         updateAllAssetIcons(); 
     } else {
         console.log('Asset Icons da popolare');
         getAllAssetIcons();
-    }
+    } */
 
 };

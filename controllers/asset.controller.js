@@ -42,8 +42,6 @@ const getAssetById = async (req, res) => {
     }
 }
 
-// TODO: GET - pensa ad altre get che possono essere utili all'utente
-
 // POST - aggiungi un nuovo asset alla lista dell'utente
 const addNewAsset = async (req, res) => {
     

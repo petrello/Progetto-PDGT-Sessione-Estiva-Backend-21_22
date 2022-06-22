@@ -82,23 +82,18 @@ export const getStartPeriod = (duration_id, time_period_end) => {
 
     switch(duration_id) {
         case "1HRS":
-            console.log(duration_id);
             time_period_start.setHours(time_period_start.getHours() - 1);
             break;
         case "1DAY":
-            console.log(duration_id);
             time_period_start.setDate(time_period_start.getDate() - 1);
             break;
         case "1WEK":
-            console.log(duration_id);
             time_period_start.setDate(time_period_start.getDate() - 7);
             break;
         case "1MTH":
-            console.log(duration_id);
             time_period_start.setDate(time_period_start.getDate() - 30);
             break;
         case "1YER":
-            console.log(duration_id);
             time_period_start.setFullYear(time_period_start.getFullYear() - 1);
             break;
     }
@@ -120,23 +115,18 @@ export const getPeriod = (duration_id) => {
     // according to the specified conventions...
     switch(duration_id) {
         case "1HRS":
-            console.log(duration_id);
             period = "2MIN";
             break;
         case "1DAY":
-            console.log(duration_id);
             period = "1HRS";
             break;
         case "1WEK":
-            console.log(duration_id);
             period = "8HRS";
             break;
         case "1MTH":
-            console.log(duration_id);
             period = "1DAY";
             break;
         case "1YER":
-            console.log(duration_id);
             period = "10DAY";
             break;
     }
