@@ -11,8 +11,8 @@ router.get('/:asset_id',    AssetController.getAssetById);
 router.post('/',            AssetController.addNewAsset);
 
 // PUT ROUTES
-router.put('/:asset_id',    AssetController.modifyExchangeCurrency);
-router.put('/:asset_id',    AssetController.modifyTimePeriod);
+router.put('/exchangerate/:asset_id',    AssetController.modifyExchangeCurrency);
+router.put('/history/:asset_id',    AssetController.modifyTimePeriod);
 
 // DELETE ROUTES
 router.delete('/:asset_id', AssetController.deleteAssetById);
