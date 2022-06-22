@@ -159,19 +159,26 @@ const modifyTimePeriod = async (req, res) => {
     // const asset = req.body;
 
     const { duration_id, exchange_currency } = req.body;
+
+    console.log("CONTROLLER dd " + duration_id);
+    console.log("CONTROLLER ex " + exchange_currency);
     
     // voglio aggiornare (ricalcolo) le seguenti informazioni
-    time_period_end = getDefaultEndPeriod();
-    time_period_start = getStartPeriod(duration_id, time_period_end);
-    period_id = getPeriod(duration_id);
+    const time_period_end = getDefaultEndPeriod();
+    console.log("CONTROLLER END " + time_period_end);
+    const time_period_start = getStartPeriod(duration_id, time_period_end);
+    console.log("CONTROLLER END 2 " + time_period_end);
+    console.log("CONTROLLER START " + time_period_start);
+    const period_id = getPeriod(duration_id);
+    console.log("CONTROLLER PERIOD " + period_id);
 
 
     let changedAsset;
     try {
         changedAsset = await AssetModel.findOneAndUpdate(
             { asset_id: asset_id },
-            { 
-                percentage_change: await getPercentageChange(asset_id, exchange_currency, time_period_end),
+            {
+                percentage_change: await getPercentageChange(asset_id, exchange_currency, duration_id, time_period_end),
                 price: await getCurrentPrice(asset_id, exchange_currency, time_period_end),
                 period_id: period_id,
                 duration_id: duration_id,

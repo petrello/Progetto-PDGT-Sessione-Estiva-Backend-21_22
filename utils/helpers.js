@@ -107,6 +107,7 @@ export const get1YAgoPrice = async (asset_id, exchange_currency) => {
 export const getPercentageChange = async (asset_id, exchange_currency, duration_id, current_time) => {
     // return something like 0,3 o -0,3
     var percentage_change = 0.0;
+    console.log("getPercentageChange - Current TIME: " + current_time);
 
     const current_price = await getCurrentPrice(asset_id, exchange_currency, current_time);
 
