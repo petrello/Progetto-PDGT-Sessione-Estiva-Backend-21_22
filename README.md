@@ -129,100 +129,100 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
     * **/**  
     Contattato questo endpoint è possibile ricevere la lista degli Asset che il Client ha salvato. Questo si traduce in una risposta da parte del server che conterrà tutti i Document (gli Asset) presenti nella Collection (`user_assets`) di Mongo DB Atlas dedicata.    
     
-    Esempio:  
-    
-    **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets
- 
-    **RESPONSE**:
-    ```JSON
-    {
-        "status": "OK",
-        "data": [
-            {
-                "_id": "62b18a21aada65fac6a4c6d4",
-                "asset_id": "LTC",
-                "name": "Litecoin",
-                "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/a201762f149941ef9b84e0742cd00e48.png",
-                "percentage_change": -16.64,
-                "price": 53.7761041866696,
-                "exchange_currency": "USD",
-                "period_id": "1HRS",
-                "duration_id": "1DAY",
-                "time_period_start": "2022-06-20T09:06:29.271Z",
-                "time_period_end": "2022-06-21T09:06:29.272Z",
-                "plot_rate": [
-                    53.0006745, 52.272779, 52.000521446293654, 53.12407005048214, 52.727593469250166, 
-                    51.985443003534044, 55.985443003534044, 51.985443003534044, 51.985443003534044, 
-                    52.86193149919329, 56.998617198795486, 52.497587824287045, 52.70672862271305,
-                    52.86084451576892, 57.64325974070709, 52.90980545875966, 52.90388352006449, 
-                    53.0012664408337, 58.823011493092274, 54.11335279266179, 53.09453588054682, 
-                    53.78694948468701
-                ],
-                "__v": 0
-            },
-            {
-                "_id": "62b3807c9005b71fc332ef0a",
-                "asset_id": "BTC",
-                "name": "Bitcoin",
-                "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/4caf2b16a0174e26a3482cea69c34cba.png",
-                "percentage_change": -4.47,
-                "price": 19954.7514355802,
-                "exchange_currency": "USD",
-                "period_id": "1HRS",
-                "duration_id": "1DAY",
-                "time_period_start": "2022-06-21T20:50:00.498Z",
-                "time_period_end": "2022-06-22T20:50:00.501Z",
-                "plot_rate": [
-                    20875.537011712222, 20844.139169547834, 20961.43822591027, 20886.189341357,
-                    20709.047134650824, 20576.764018207625, 20407.38197492969, 20460.19089387282,
-                    20305.473688665686, 20429.963689406024, 20372.044988149777, 20109.556993902454,
-                    20096.091317717837, 20225.285376352163, 20419.396379592126, 20411.138901919297,
-                    20498.791912443605, 20353.70595819256, 20709.109825890377, 20661.523020776873,
-                    20048.77988896868, 20283.746697829796, 20231.382212649165, 20185.62176261925,
-                    20086.274815272795
-                ],
-                "__v": 0
-            }
-        ]
-    }
-    ```
+      Esempio:  
+
+      **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets
+
+      **RESPONSE**:
+      ```JSON
+      {
+          "status": "OK",
+          "data": [
+              {
+                  "_id": "62b18a21aada65fac6a4c6d4",
+                  "asset_id": "LTC",
+                  "name": "Litecoin",
+                  "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/a201762f149941ef9b84e0742cd00e48.png",
+                  "percentage_change": -16.64,
+                  "price": 53.7761041866696,
+                  "exchange_currency": "USD",
+                  "period_id": "1HRS",
+                  "duration_id": "1DAY",
+                  "time_period_start": "2022-06-20T09:06:29.271Z",
+                  "time_period_end": "2022-06-21T09:06:29.272Z",
+                  "plot_rate": [
+                      53.0006745, 52.272779, 52.000521446293654, 53.12407005048214, 52.727593469250166, 
+                      51.985443003534044, 55.985443003534044, 51.985443003534044, 51.985443003534044, 
+                      52.86193149919329, 56.998617198795486, 52.497587824287045, 52.70672862271305,
+                      52.86084451576892, 57.64325974070709, 52.90980545875966, 52.90388352006449, 
+                      53.0012664408337, 58.823011493092274, 54.11335279266179, 53.09453588054682, 
+                      53.78694948468701
+                  ],
+                  "__v": 0
+              },
+              {
+                  "_id": "62b3807c9005b71fc332ef0a",
+                  "asset_id": "BTC",
+                  "name": "Bitcoin",
+                  "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/4caf2b16a0174e26a3482cea69c34cba.png",
+                  "percentage_change": -4.47,
+                  "price": 19954.7514355802,
+                  "exchange_currency": "USD",
+                  "period_id": "1HRS",
+                  "duration_id": "1DAY",
+                  "time_period_start": "2022-06-21T20:50:00.498Z",
+                  "time_period_end": "2022-06-22T20:50:00.501Z",
+                  "plot_rate": [
+                      20875.537011712222, 20844.139169547834, 20961.43822591027, 20886.189341357,
+                      20709.047134650824, 20576.764018207625, 20407.38197492969, 20460.19089387282,
+                      20305.473688665686, 20429.963689406024, 20372.044988149777, 20109.556993902454,
+                      20096.091317717837, 20225.285376352163, 20419.396379592126, 20411.138901919297,
+                      20498.791912443605, 20353.70595819256, 20709.109825890377, 20661.523020776873,
+                      20048.77988896868, 20283.746697829796, 20231.382212649165, 20185.62176261925,
+                      20086.274815272795
+                  ],
+                  "__v": 0
+              }
+          ]
+      }
+      ```
     
     * **/:asset_id**     
     In questo caso possiamo ricevere nel corpo della risposta solamente l'Asset richiesto. Osserviamo come questa volta dobbiamo aggiungere il parametro `asset_id` per comunicare al server quale sia l'Asset che interessa al client. Di conseguenza, capiamo che ogni Asset sarà associato ad un ID (in realtà ne avrà due..) che individua in modo univoco la risorsa.   
     
-    Esempio:  
-    
-    **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets/BTC
- 
-    **RESPONSE**:
-    ```JSON
-    {
-        "status": "OK",
-        "data": {
-                "_id": "62b3807c9005b71fc332ef0a",
-                "asset_id": "BTC",
-                "name": "Bitcoin",
-                "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/4caf2b16a0174e26a3482cea69c34cba.png",
-                "percentage_change": -4.47,
-                "price": 19954.7514355802,
-                "exchange_currency": "USD",
-                "period_id": "1HRS",
-                "duration_id": "1DAY",
-                "time_period_start": "2022-06-21T20:50:00.498Z",
-                "time_period_end": "2022-06-22T20:50:00.501Z",
-                "plot_rate": [
-                    20875.537011712222, 20844.139169547834, 20961.43822591027, 20886.189341357,
-                    20709.047134650824, 20576.764018207625, 20407.38197492969, 20460.19089387282,
-                    20305.473688665686, 20429.963689406024, 20372.044988149777, 20109.556993902454,
-                    20096.091317717837, 20225.285376352163, 20419.396379592126, 20411.138901919297,
-                    20498.791912443605, 20353.70595819256, 20709.109825890377, 20661.523020776873,
-                    20048.77988896868, 20283.746697829796, 20231.382212649165, 20185.62176261925,
-                    20086.274815272795
-                ],
-                "__v": 0
-          }
-    }
-    ```
+      Esempio:  
+
+      **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets/BTC
+
+      **RESPONSE**:
+      ```JSON
+      {
+          "status": "OK",
+          "data": {
+                  "_id": "62b3807c9005b71fc332ef0a",
+                  "asset_id": "BTC",
+                  "name": "Bitcoin",
+                  "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/4caf2b16a0174e26a3482cea69c34cba.png",
+                  "percentage_change": -4.47,
+                  "price": 19954.7514355802,
+                  "exchange_currency": "USD",
+                  "period_id": "1HRS",
+                  "duration_id": "1DAY",
+                  "time_period_start": "2022-06-21T20:50:00.498Z",
+                  "time_period_end": "2022-06-22T20:50:00.501Z",
+                  "plot_rate": [
+                      20875.537011712222, 20844.139169547834, 20961.43822591027, 20886.189341357,
+                      20709.047134650824, 20576.764018207625, 20407.38197492969, 20460.19089387282,
+                      20305.473688665686, 20429.963689406024, 20372.044988149777, 20109.556993902454,
+                      20096.091317717837, 20225.285376352163, 20419.396379592126, 20411.138901919297,
+                      20498.791912443605, 20353.70595819256, 20709.109825890377, 20661.523020776873,
+                      20048.77988896868, 20283.746697829796, 20231.382212649165, 20185.62176261925,
+                      20086.274815272795
+                  ],
+                  "__v": 0
+            }
+      }
+      ```
     
   * **POST**
   
@@ -237,46 +237,46 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
         
       Con questo valore possiamo cercare all'interno del nostro databse se l'Asset esiste, in caso affermativo raccogliere le informazioni, ed infine completare i campi del nuovo Asset con valori di default (ad esempio, lo storico verrà impostato di default a "1DAY").  
       
-    Esempio:  
-    
-    **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets
-    
-    **BODY**:
-    ``` JSON
-    {
-       "asset_id": "ETH"
-    }
-    ```
- 
-    **RESPONSE**:
-    ```JSON
-    {
-        "status": "Created",
-        "data": {
-            "asset_id": "ETH",
-            "name": "Ethereum",
-            "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/604ae4533d9f4ad09a489905cce617c2.png",
-            "percentage_change": -6.84,
-            "price": 1055.39597150854,
-            "exchange_currency": "USD",
-            "period_id": "1HRS",
-            "duration_id": "1DAY",
-            "time_period_start": "2022-06-21T21:22:39.025Z",
-            "time_period_end": "2022-06-22T21:22:39.025Z",
-            "plot_rate": [
-                1121.857624781495, 1129.0324842653577, 1137.1662403565163, 1125.1652020168244,
-                1117.5736547125312, 1101.100823165162, 1102.2658014472393, 1088.4982277424328,
-                1099.0410913463995, 1093.0366040028716, 1078.4749954790614, 1074.8935819081855,
-                1080.774578300098, 1090.6568649885953, 1089.176051568309, 1096.8471084574303,
-                1082.294978579304, 1111.126438508694, 1107.7430934934027, 1072.6883907538768,
-                1076.9687253607797, 1080.1495010467713, 1079.646114985639, 1068.8049352583826,
-                1047.0991292738815
-            ],
-            "_id": "62b38822460907ec430e081b",
-            "__v": 0
-        }
-    }
-    ```
+      Esempio:  
+
+      **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets
+
+      **BODY**:
+      ``` JSON
+      {
+         "asset_id": "ETH"
+      }
+      ```
+
+      **RESPONSE**:
+      ```JSON
+      {
+          "status": "Created",
+          "data": {
+              "asset_id": "ETH",
+              "name": "Ethereum",
+              "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/604ae4533d9f4ad09a489905cce617c2.png",
+              "percentage_change": -6.84,
+              "price": 1055.39597150854,
+              "exchange_currency": "USD",
+              "period_id": "1HRS",
+              "duration_id": "1DAY",
+              "time_period_start": "2022-06-21T21:22:39.025Z",
+              "time_period_end": "2022-06-22T21:22:39.025Z",
+              "plot_rate": [
+                  1121.857624781495, 1129.0324842653577, 1137.1662403565163, 1125.1652020168244,
+                  1117.5736547125312, 1101.100823165162, 1102.2658014472393, 1088.4982277424328,
+                  1099.0410913463995, 1093.0366040028716, 1078.4749954790614, 1074.8935819081855,
+                  1080.774578300098, 1090.6568649885953, 1089.176051568309, 1096.8471084574303,
+                  1082.294978579304, 1111.126438508694, 1107.7430934934027, 1072.6883907538768,
+                  1076.9687253607797, 1080.1495010467713, 1079.646114985639, 1068.8049352583826,
+                  1047.0991292738815
+              ],
+              "_id": "62b38822460907ec430e081b",
+              "__v": 0
+          }
+      }
+      ```
     
   * **PUT**
   
@@ -310,7 +310,7 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
          "time_period_start": "2022-06-21T21:22:39.025Z",
          "period_id": "1HRS",
          "exchange_currency": "EUR"
-     }
+      }
       ```
 
       **RESPONSE**:
@@ -401,50 +401,50 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
   * **DELETE**
   
     * **/:asset_id**    
+    Il client ha la possibilità di rimuovere un Asset presente nella lista dell'utente. Se vogliamo eliminare un Asset dobbiamo necessariamente specificare l'ID univoco che lo identifica. Si richiede che, come nel caso della POST, il codice `asset_id` venga passato tra i parametri della richiesta. Qual'ora la richiesta venga evasa correttamente, allora il server risponderà al client inviando nel in formato JSON l'oggetto Asset eliminato.   
     
-    Il client ha la possibilità di rimuovere un Asset presente nella lista dell'utente. Se vogliamo eliminare un Asset dobbiamo necessariamente specificare l'ID univoco che lo identifica. Si richiede che, come nel caso della POST, il codice `asset_id` venga passato tra i parametri della richiesta. Qual'ora la richiesta venga evasa correttamente, allora il server risponderà al client inviando nel in formato JSON l'oggetto Asset eliminato.
+      Esempio:    
     
-    Esempio:   
+      **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets/history/BTC
     
-    **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets/history/BTC
-    
-    **BODY**:
-    ``` JSON
-    {
-        "duration_id": "1HRS",
-        "exchange_currency": "EUR"
-    }
-    ```
+      **BODY**:
+      ``` JSON
+      {
+          "duration_id": "1HRS",
+          "exchange_currency": "EUR"
+      }
+      ```
 
-    **RESPONSE**:
-    ```JSON
-    {
-        "status": "OK",
-        "data": {
-            "_id": "62b18a21aada65fac6a4c6d4",
-            "asset_id": "LTC",
-            "name": "Litecoin",
-            "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/a201762f149941ef9b84e0742cd00e48.png",
-            "percentage_change": -16.64,
-            "price": 53.7761041866696,
-            "exchange_currency": "USD",
-            "period_id": "1HRS",
-            "duration_id": "1DAY",
-            "time_period_start": "2022-06-20T09:06:29.271Z",
-            "time_period_end": "2022-06-21T09:06:29.272Z",
-            "plot_rate": [
-                53.0006745, 52.272779, 52.000521446293654, 53.12407005048214,
-                52.727593469250166, 51.985443003534044, 51.985443003534044, 51.985443003534044,
-                51.985443003534044, 52.86193149919329, 51.998617198795486, 52.497587824287045,
-                52.70672862271305, 52.86084451576892, 52.64325974070709, 52.90980545875966,
-                52.90388352006449, 53.0012664408337, 53.823011493092274, 54.11335279266179,
-                53.09453588054682, 53.78694948468701
-            ],
-            "__v": 0
-        }
-    }
-    ```
+      **RESPONSE**:
+      ```JSON
+      {
+          "status": "OK",
+          "data": {
+              "_id": "62b18a21aada65fac6a4c6d4",
+              "asset_id": "LTC",
+              "name": "Litecoin",
+              "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/a201762f149941ef9b84e0742cd00e48.png",
+              "percentage_change": -16.64,
+              "price": 53.7761041866696,
+              "exchange_currency": "USD",
+              "period_id": "1HRS",
+              "duration_id": "1DAY",
+              "time_period_start": "2022-06-20T09:06:29.271Z",
+              "time_period_end": "2022-06-21T09:06:29.272Z",
+              "plot_rate": [
+                  53.0006745, 52.272779, 52.000521446293654, 53.12407005048214,
+                  52.727593469250166, 51.985443003534044, 51.985443003534044, 51.985443003534044,
+                  51.985443003534044, 52.86193149919329, 51.998617198795486, 52.497587824287045,
+                  52.70672862271305, 52.86084451576892, 52.64325974070709, 52.90980545875966,
+                  52.90388352006449, 53.0012664408337, 53.823011493092274, 54.11335279266179,
+                  53.09453588054682, 53.78694948468701
+              ],
+              "__v": 0
+          }
+      }
+      ```
 
+<br>
 > ##### Principi di naming utilizzati
 > * *URIs as resources as nouns*: “RESTful URIs should refer to a resource that is a thing (noun) instead of referring to an action (verb) because nouns have properties which verbs do not have – similar to resources have attributes.” – RESTfulAPI.net
 > * *Pluralized resources*: “API design experts would suggest you pluralize all resources unless they are singleton resources.” – nordicapis.com
