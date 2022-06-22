@@ -11,6 +11,7 @@ import AssetModel from '../models/asset.model.js';
 import AssetDTO from '../coin_api/coin_api_models/asset.api_model.js';
 import AssetIconDTO from '../coin_api/coin_api_models/asset_icon.api_model.js';
 
+
 // GET - ritorna la lista di asset dell'utente (home page)
 const getAllAssets = async (req, res) => {
     try {
@@ -46,7 +47,7 @@ const getAssetById = async (req, res) => {
 // POST - aggiungi un nuovo asset alla lista dell'utente
 const addNewAsset = async (req, res) => {
     
-    if (!req.body.asset_id)
+    if (!req.body)
         return res.status(400).send({ status: "Bad Request", message: "Body content is missing" });
 
     // cerco l'asset in tutta la collezione
@@ -152,7 +153,7 @@ const modifyExchangeCurrency = async (req, res) => {
 const modifyTimePeriod = async (req, res) => {
     const { asset_id: asset_id } = req.params;
     
-    if (!req.body.asset_id)
+    if (!req.body)
         return res.status(400).send({ status: "Bad Request", message: "Body content is missing" });
 
     // const asset = req.body;
