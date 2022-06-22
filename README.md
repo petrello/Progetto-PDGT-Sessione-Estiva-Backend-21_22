@@ -118,17 +118,76 @@ Tutte le richieste verranno evase fornendo il corpo della risposta in formato JS
 Contattando questo endpoint possiamo verificare lo stato del server. Infatti, il server ci restituirà, se attivo, una pagina HTML con cui vuole segnalare ai Client che è in esecuzione ed è in grado di ricevere richieste.  
 <div align="center"><a><img src='images/root-screen.jpg' height='300' alt='server root HTML page'/></a></div>
 
+Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che vanno a coprire gli obbiettivi descritti all'inizio di questa relazione.  
+> **Nota** che ogni descrizione è accompagnata da un esempio in cui si vedono delle possibili coppie richiesta-risposta grazie all'utilizzo di *Postam*. 
+
 * **/userList/assets**
   * **GET**
-    * **/**
-    * **/:asset_id**
+  
+    * **/**  
+    Contattato questo endpoint è possibile ricevere la lista degli Asset che il Client ha salvato. Questo si traduce in una risposta da parte del server che conterrà tutti i Document (gli Asset) presenti nella Collection (`user_assets`) di Mongo DB Atlas dedicata.  
+    Esempio:  
+    <div align="center"><a><img src='images/' height='300' alt='GET /'/></a></div>  
+    
+    * **/:asset_id**     
+    In questo caso possiamo ricevere nel corpo della risposta solamente l'Asset richiesto. Osserviamo come questa volta dobbiamo aggiungere il parametro `asset_id` per comunicare al server quale sia l'Asset che interessa al client. Di conseguenza, capiamo che ogni Asset sarà associato ad un ID (in realtà ne avrà due..) che individua in modo univoco la risorsa. 
+    Esempio:  
+    <div align="center"><a><img src='images/' height='300' alt='GET /:asset_id'/></a></div>  
+    
   * **POST**
-    * **/:asset_id**
+  
+    * **/**  
+    Inviando una richiesta a questo endpoint del server, stiamo dichiarando di voler aggiungere un nuovo Asset alla lista dei preferiti. Allora in questo caso il client dovrà fornire un `body` contenente l'Asset che si vuole creare. Dobbiamo considerare che la risorsa è reale (e non fittizia) per cui non vogliamo lasciare al all'utente la libertà di "inventarsi" un nuovo Asset. Quello che richiediamo nel corpo della richiesta allora è una qualsiasi informazione che mi permette di capire quale sia l'Asset richiesto dall'utente. Allora anche in questo caso accettiamo l'`asset_id`:   
+    
+        ``` JSON
+        {
+           "asset_id": "LTC"
+        }
+        ```
+        
+      Con questo valore possiamo cercare all'interno del nostro databse se l'Asset esiste, in caso affermativo raccogliere le informazioni, ed infine completare i campi del nuovo Asset con valori di default (ad esempio, lo storico verrà impostato di default a "1DAY").
+    Esempio:  
+    <div align="center"><a><img src='images/' height='300' alt='POST /'/></a></div>
+    
   * **PUT**
-    * **/:asset_id**
-    * **/:asset_id**
+  
+    * **/:asset_id**   
+    Sarà possibile ottenere la conversione del prezzo di ogni Asset in svariate valute. In particolare, sarà possibile conoscere il prezzo in termini di: Dollaro Statunitense 'USD', Euro 'EUR', Yen 'JPY', Sterlina Britannica 'GBP', Yuan 'CNY', Franco Svizzero 'CHF', Won Sudcoreano 'KRW', Rublo Russo 'RUB'. Per avere una risposta positiva dal server sono necessarie nel corpo della richiesta le seguenti informazioni:
+    
+      ``` JSON
+      {
+        /* finestra temporale in cui potremmo vedere l'andamento del prezzo */
+        "duration_id": "1DAY",
+        /* data di inizio della finestra */
+        "time_period_end": "2022-06-09T14:29:29.490Z",
+        /* data di fine della finestra (tipicamente la data odierna */
+        "time_period_start": "2022-06-08T14:29:29.490Z",
+        /* periodo di campionamento del prezzo (mostriamo il prezzo ogni ora) */
+        "period_id":"1HRS",
+        /* valuta di conversione */
+        "exchange_currency": "EUR"
+      }
+      ```    
+      
+      Esempio:  
+      <div align="center"><a><img src='images/' height='300' alt='PUT /:asset_id'/></a></div>
+    
+    * **/:asset_id**    
+     Sarà possibile ottenere la conversione del prezzo di ogni Asset in svariate valute. In particolare, sarà possibile conoscere il prezzo in termini di: Dollaro Statunitense 'USD', Euro 'EUR', Yen 'JPY', Sterlina Britannica 'GBP', Yuan 'CNY', Franco Svizzero 'CHF', Won Sudcoreano 'KRW', Rublo Russo 'RUB'. Per avere una risposta positiva dal server sono necessarie nel corpo della richiesta le seguenti informazioni:
+    
+      ``` JSON
+      {
+        "duration_id": "1HRS",
+        "exchange_currency": "USD"
+      }
+      ```    
+      
+      Esempio:  
+      <div align="center"><a><img src='images/' height='300' alt='PUT /:asset_id'/></a></div>
+      
   * **DELETE**
     * **/:asset_id**
+
 
 > ##### Principi di naming utilizzati
 > * *URIs as resources as nouns*: “RESTful URIs should refer to a resource that is a thing (noun) instead of referring to an action (verb) because nouns have properties which verbs do not have – similar to resources have attributes.” – RESTfulAPI.net
