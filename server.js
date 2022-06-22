@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 // enabling CORS for all requests
 app.use(cors());
 
-
+// rendering of html root page
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'views')));
