@@ -404,10 +404,46 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
     
     Il client ha la possibilità di rimuovere un Asset presente nella lista dell'utente. Se vogliamo eliminare un Asset dobbiamo necessariamente specificare l'ID univoco che lo identifica. Si richiede che, come nel caso della POST, il codice `asset_id` venga passato tra i parametri della richiesta. Qual'ora la richiesta venga evasa correttamente, allora il server risponderà al client inviando nel in formato JSON l'oggetto Asset eliminato.
     
-    Esempio:  
-    <div align="center"><a><img src='images/' height='300' alt='DELETE /:asset_id'/></a></div>
+    Esempio:   
+    
+    **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets/history/BTC
+    
+    **BODY**:
+    ``` JSON
+    {
+        "duration_id": "1HRS",
+        "exchange_currency": "EUR"
+    }
+    ```
 
-
+    **RESPONSE**:
+    ```JSON
+    {
+        "status": "OK",
+        "data": {
+            "_id": "62b18a21aada65fac6a4c6d4",
+            "asset_id": "LTC",
+            "name": "Litecoin",
+            "icon": "https://s3.eu-central-1.amazonaws.com/bbxt-static-icons/type-id/png_64/a201762f149941ef9b84e0742cd00e48.png",
+            "percentage_change": -16.64,
+            "price": 53.7761041866696,
+            "exchange_currency": "USD",
+            "period_id": "1HRS",
+            "duration_id": "1DAY",
+            "time_period_start": "2022-06-20T09:06:29.271Z",
+            "time_period_end": "2022-06-21T09:06:29.272Z",
+            "plot_rate": [
+                53.0006745, 52.272779, 52.000521446293654, 53.12407005048214,
+                52.727593469250166, 51.985443003534044, 51.985443003534044, 51.985443003534044,
+                51.985443003534044, 52.86193149919329, 51.998617198795486, 52.497587824287045,
+                52.70672862271305, 52.86084451576892, 52.64325974070709, 52.90980545875966,
+                52.90388352006449, 53.0012664408337, 53.823011493092274, 54.11335279266179,
+                53.09453588054682, 53.78694948468701
+            ],
+            "__v": 0
+        }
+    }
+    ```
 
 > ##### Principi di naming utilizzati
 > * *URIs as resources as nouns*: “RESTful URIs should refer to a resource that is a thing (noun) instead of referring to an action (verb) because nouns have properties which verbs do not have – similar to resources have attributes.” – RESTfulAPI.net
