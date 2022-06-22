@@ -116,21 +116,25 @@ Tutte le richieste verranno evase fornendo il corpo della risposta in formato JS
 #### Endpoints
 * **/ (root)**  
 Contattando questo endpoint possiamo verificare lo stato del server. Infatti, il server ci restituirà, se attivo, una pagina HTML con cui vuole segnalare ai Client che è in esecuzione ed è in grado di ricevere richieste.  
+
 <div align="center"><a><img src='images/root-screen.jpg' height='300' alt='server root HTML page'/></a></div>
 
 Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che vanno a coprire gli obbiettivi descritti all'inizio di questa relazione.  
 > **Nota** che ogni descrizione è accompagnata da un esempio in cui si vedono delle possibili coppie richiesta-risposta grazie all'utilizzo di *Postam*. 
 
-* **/userList/assets**
+* **/userList/assets**  
+
   * **GET**
   
     * **/**  
-    Contattato questo endpoint è possibile ricevere la lista degli Asset che il Client ha salvato. Questo si traduce in una risposta da parte del server che conterrà tutti i Document (gli Asset) presenti nella Collection (`user_assets`) di Mongo DB Atlas dedicata.  
+    Contattato questo endpoint è possibile ricevere la lista degli Asset che il Client ha salvato. Questo si traduce in una risposta da parte del server che conterrà tutti i Document (gli Asset) presenti nella Collection (`user_assets`) di Mongo DB Atlas dedicata.    
+    
     Esempio:  
     <div align="center"><a><img src='images/' height='300' alt='GET /'/></a></div>  
     
     * **/:asset_id**     
-    In questo caso possiamo ricevere nel corpo della risposta solamente l'Asset richiesto. Osserviamo come questa volta dobbiamo aggiungere il parametro `asset_id` per comunicare al server quale sia l'Asset che interessa al client. Di conseguenza, capiamo che ogni Asset sarà associato ad un ID (in realtà ne avrà due..) che individua in modo univoco la risorsa. 
+    In questo caso possiamo ricevere nel corpo della risposta solamente l'Asset richiesto. Osserviamo come questa volta dobbiamo aggiungere il parametro `asset_id` per comunicare al server quale sia l'Asset che interessa al client. Di conseguenza, capiamo che ogni Asset sarà associato ad un ID (in realtà ne avrà due..) che individua in modo univoco la risorsa.   
+    
     Esempio:  
     <div align="center"><a><img src='images/' height='300' alt='GET /:asset_id'/></a></div>  
     
@@ -145,7 +149,8 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
         }
         ```
         
-      Con questo valore possiamo cercare all'interno del nostro databse se l'Asset esiste, in caso affermativo raccogliere le informazioni, ed infine completare i campi del nuovo Asset con valori di default (ad esempio, lo storico verrà impostato di default a "1DAY").
+      Con questo valore possiamo cercare all'interno del nostro databse se l'Asset esiste, in caso affermativo raccogliere le informazioni, ed infine completare i campi del nuovo Asset con valori di default (ad esempio, lo storico verrà impostato di default a "1DAY").  
+      
     Esempio:  
     <div align="center"><a><img src='images/' height='300' alt='POST /'/></a></div>
     
@@ -173,7 +178,7 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
       <div align="center"><a><img src='images/' height='300' alt='PUT /:asset_id'/></a></div>
     
     * **/:asset_id**    
-     Sarà possibile ottenere la conversione del prezzo di ogni Asset in svariate valute. In particolare, sarà possibile conoscere il prezzo in termini di: Dollaro Statunitense 'USD', Euro 'EUR', Yen 'JPY', Sterlina Britannica 'GBP', Yuan 'CNY', Franco Svizzero 'CHF', Won Sudcoreano 'KRW', Rublo Russo 'RUB'. Per avere una risposta positiva dal server sono necessarie nel corpo della richiesta le seguenti informazioni:
+     Se l'utente decide di voler avere accesso ad uno storico del prezzo di un Asset più o meno ristretto, allora si deve contattare questo endpoint. Il server si aspetta la seguente coppia di dati:
     
       ``` JSON
       {
@@ -182,17 +187,39 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
       }
       ```    
       
+      La risposta del server, come nel caso precedente, sarà un intero oggetto Asset codificato nel formato JSON.
+      
       Esempio:  
       <div align="center"><a><img src='images/' height='300' alt='PUT /:asset_id'/></a></div>
       
   * **DELETE**
-    * **/:asset_id**
+  
+    * **/:asset_id**    
+    
+    Il client ha la possibilità di rimuovere un Asset presente nella lista dell'utente. Se vogliamo eliminare un Asset dobbiamo necessariamente specificare l'ID univoco che lo identifica. Si richiede che, come nel caso della POST, il codice `asset_id` venga passato tra i parametri della richiesta. Qual'ora la richiesta venga evasa correttamente, allora il server risponderà al client inviando nel in formato JSON l'oggetto Asset eliminato.
+    
+    Esempio:  
+    <div align="center"><a><img src='images/' height='300' alt='DELETE /:asset_id'/></a></div>
+
 
 
 > ##### Principi di naming utilizzati
 > * *URIs as resources as nouns*: “RESTful URIs should refer to a resource that is a thing (noun) instead of referring to an action (verb) because nouns have properties which verbs do not have – similar to resources have attributes.” – RESTfulAPI.net
 > * *Pluralized resources*: “API design experts would suggest you pluralize all resources unless they are singleton resources.” – nordicapis.com
 
+
+#### Convenzioni utilizzate
+
+| DURATION_ID         | PERIOD_ID               |
+| :-----------------: | :---------------------: |
+| 1HRS -> 1 ora       | 2MIN -> ogni 2 minuti   |
+| 1DAY -> 1 giorno    | 1HRS -> ogni ora        |
+| 1WEK -> 1 settimana | 8HRS -> ogni 8 ore      |
+| 1MTH -> 1 mese      | 1DAY -> ogni giorno     |
+| 1YER -> 1 anno      | 10DAY -> ogni 10 giorni |
+
+*Duration_id*: è la durata di tempo in cui campioniamo per un certo periodo i costi di un asset è il tempo compreso tra time_period_start e time_period_end.   
+*Period_id*: è il periodo di campionamento.
 
 ---
 
