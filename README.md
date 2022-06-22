@@ -100,6 +100,7 @@ Esempi:
 | 400 | Bad Request | Errore generico dovuto ad un errore nella richiesta del client |
 | 403 | Forbidden | La risorsa che si vuole creare è già presente nella lista |
 | 404 | Not Found | La risorsa a cui si vuole accedere non esiste |
+| 406 | Not Acceptable | Il corpo della richiesta non rispetta il tipo richiesto |
 | 409 | Conflict | Qualcosa è andato storto durante la creazione della risorsa |
 | 500 | Internal Server Error | Si è presentata una condizione anomala che non ha permesso al server di evadere la richiesta |
 
