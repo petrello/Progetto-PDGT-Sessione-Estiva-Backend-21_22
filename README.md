@@ -120,7 +120,7 @@ Contattando questo endpoint possiamo verificare lo stato del server. Infatti, il
 <div align="center"><a><img src='images/root-screen.jpg' height='300' alt='server root HTML page'/></a></div>
 
 Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che vanno a coprire gli obbiettivi descritti all'inizio di questa relazione.  
-> **Nota** che ogni descrizione è accompagnata da un esempio in cui si vedono delle possibili coppie richiesta-risposta grazie all'utilizzo di *Postam*. 
+> **Nota** che ogni descrizione è accompagnata da un esempio in cui si vedono delle possibili coppie richiesta-risposta, ognuno realizzato e testato grazie all'utilizzo di *Postman*. 
 
 * **/userList/assets**  
 
