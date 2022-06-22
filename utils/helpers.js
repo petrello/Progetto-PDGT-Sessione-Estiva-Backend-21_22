@@ -13,15 +13,6 @@ const getExchangeRateByAsset = async (asset_id, exchange_currency, date) =>  {
 }
 
 export const getCurrentPrice = async (asset_id, exchange_currency, time_period_end) => {
-    console.log("getCurrentPrice - time period end: " + time_period_end);
-    console.log("getCurrentPrice - time period end ISO: " + time_period_end.toISOString());
-    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
-    + asset_id + "/" + exchange_currency
-    + "?time=" + time_period_end.toISOString()
-    + "&apiKey=" + process.env.API_KEY);
-    const current_exchangerate = await response.json();
-    const current_price = current_exchangerate.rate;
-    return current_price; */
     return await getExchangeRateByAsset(asset_id, exchange_currency, time_period_end);
 }
 
@@ -30,14 +21,6 @@ export const get1HAgoPrice = async (asset_id, exchange_currency) => {
     lastHour.setHours(lastHour.getHours() - 1);
 
     return await getExchangeRateByAsset(asset_id, exchange_currency, lastHour);
-
-    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
-    + asset_id + "/" + exchange_currency 
-    + "?time=" + lastHour.toISOString()
-    + "&apiKey=" + process.env.API_KEY);
-    const previous_exchangerate = await response.json();
-    const previous_price = previous_exchangerate.rate;
-    return previous_price; */
 }
 
 export const get1DAgoPrice = async (asset_id, exchange_currency) => {
@@ -48,14 +31,6 @@ export const get1DAgoPrice = async (asset_id, exchange_currency) => {
     lastDay.setDate(lastDay.getDate() - 11); */
 
     return await getExchangeRateByAsset(asset_id, exchange_currency, lastDay);
-
-    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
-    + asset_id + "/" + exchange_currency 
-    + "?time=" + lastDay.toISOString()
-    + "&apiKey=" + process.env.API_KEY);
-    const previous_exchangerate = await response.json();
-    const previous_price = previous_exchangerate.rate;
-    return previous_price; */
 }
 
 export const get1WAgoPrice = async (asset_id, exchange_currency) => {
@@ -63,14 +38,6 @@ export const get1WAgoPrice = async (asset_id, exchange_currency) => {
     lastWeek.setDate(lastWeek.getDate() - 7);
 
     return await getExchangeRateByAsset(asset_id, exchange_currency, lastWeek);
-
-    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
-    + asset_id + "/" + exchange_currency
-    + "?time=" + lastWeek.toISOString()
-    + "&apiKey=" + process.env.API_KEY);
-    const current_exchangerate = await response.json();
-    const current_price = current_exchangerate.rate;
-    return current_price; */
 }
 
 export const get1MAgoPrice = async (asset_id, exchange_currency) => {
@@ -78,14 +45,6 @@ export const get1MAgoPrice = async (asset_id, exchange_currency) => {
     lastMonth.setDate(lastMonth.getDate() - 30);
 
     return await getExchangeRateByAsset(asset_id, exchange_currency, lastMonth);
-
-    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
-    + asset_id + "/" + exchange_currency
-    + "?time=" + lastMonth.toISOString()
-    + "&apiKey=" + process.env.API_KEY);
-    const current_exchangerate = await response.json();
-    const current_price = current_exchangerate.rate;
-    return current_price; */
 }
 
 export const get1YAgoPrice = async (asset_id, exchange_currency) => {
@@ -93,69 +52,20 @@ export const get1YAgoPrice = async (asset_id, exchange_currency) => {
     lastYear.setFullYear(lastYear.getFullYear() - 1);
 
     return await getExchangeRateByAsset(asset_id, exchange_currency, lastYear);
-
-    /* const response = await fetch("https://rest.coinapi.io/v1/exchangerate/" 
-    + asset_id + "/" + exchange_currency
-    + "?time=" + lastYear.toISOString()
-    + "&apiKey=" + process.env.API_KEY);
-    const current_exchangerate = await response.json();
-    const current_price = current_exchangerate.rate;
-    return current_price; */
 }
 
-// TRY REFACTORING THESE METHODS WITH A SWITCH
 export const getPercentageChange = async (asset_id, exchange_currency, duration_id, current_time) => {
     // return something like 0,3 o -0,3
     var percentage_change = 0.0;
-    console.log("getPercentageChange - Current TIME: " + current_time);
 
     const current_price = await getCurrentPrice(asset_id, exchange_currency, current_time);
 
-    console.log("getPercentageChange - Current price: " + current_price);
-    console.log("getPercentageChange - Current price: " + current_time);
     const previous_date = getStartPeriod(duration_id, current_time);
-    console.log("getPercentageChange - DATA previusooo"+previous_date);
     const previous_price = await getExchangeRateByAsset(asset_id, exchange_currency, previous_date);
-    
-    /* let previous_price;
-    switch(duration_id) {
-        case "1HRS":
-            
-    console.log(duration_id);
-            previous_price = await get1HAgoPrice(asset_id, exchange_currency);
-            break;
-        case "1DAY":
-            
-    console.log(duration_id);
-            previous_price = await get1DAgoPrice(asset_id, exchange_currency);
-            break;
-        case "1WEK":
-            
-    console.log(duration_id);
-            previous_price = await get1WAgoPrice(asset_id, exchange_currency);
-            break;
-        case "1MTH":
-            
-    console.log(duration_id);
-            previous_price = await get1MAgoPrice(asset_id, exchange_currency);
-            break;
-        case "1YER":
-            
-    console.log(duration_id);
-            previous_price = await get1YAgoPrice(asset_id, exchange_currency);
-            break;
-    } */
-
-    console.log("Previous price: " + previous_price);
 
     const diff = current_price - previous_price;
-
-    console.log("C - " + current_price);
-    console.log("P - " + previous_price);
     
     percentage_change = (diff*100) / current_price;
-
-    console.log("%%%% -> " + percentage_change);
 
     return Math.round((percentage_change + Number.EPSILON) * 100) / 100;
 }
@@ -238,18 +148,9 @@ export const getPlotRate = async (asset_id, exchange_currency, period_id, time_p
     // return a list of plottable results
     let rates = [];
 
-    console.log("PERIOD: " + period_id);
-    console.log("START: " + time_period_start);
-    console.log("END: " + time_period_end);
-
-    console.log("START ISO: " + time_period_start.toISOString());
-    console.log("END ISO: " + time_period_end.toISOString());
-
     const response = await fetch(`https://rest.coinapi.io/v1/exchangerate/${asset_id}/${exchange_currency}/history?period_id=${period_id}&time_start=${time_period_start.toISOString()}&time_end=${time_period_end.toISOString()}&&apiKey=${process.env.API_KEY}`);
 
     const exchangerateList = await response.json();
-
-    console.log("EXC LIST ->" + exchangerateList);
 
     try {
         rates = exchangerateList.map(item => { return item.rate_open; });
