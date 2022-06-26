@@ -471,4 +471,14 @@ Il servizio web è disponibile al link: https://pdgt-crypto-app-api.herokuapp.co
 ---
 
 ### Come si utilizza
-screnshot, test, gif, video ...
+
+#### Views
+<div align="center"><a><img src='images/home_screen.jpg' height='500' alt='Flutter App Home Screen'/></a>
+<a><img src='images/add_screen.jpg' height='500' alt='Flutter App Add Screen'/></a>
+<a><img src='images/remove_screen.jpg' height='500' alt='Flutter App Remove Screen'/></a>
+<a><img src='images/detailed_screen.jpg' height='500' alt='Flutter App Detailed Screen'/></a></div>
+
+#### Demo
+
+https://user-images.githubusercontent.com/60917147/175808258-3dad6110-a7e9-4427-88e6-8b5d7a19ff4c.mp4
+
