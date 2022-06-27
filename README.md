@@ -401,7 +401,7 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
   * **DELETE**
   
     * **/:asset_id**    
-    Il client ha la possibilità di rimuovere un Asset presente nella lista dell'utente. Se vogliamo eliminare un Asset dobbiamo necessariamente specificare l'ID univoco che lo identifica. Si richiede che, come nel caso della POST, il codice `asset_id` venga passato tra i parametri della richiesta. Qual'ora la richiesta venga evasa correttamente, allora il server risponderà al client inviando nel in formato JSON l'oggetto Asset eliminato.   
+    Il client ha la possibilità di rimuovere un Asset presente nella lista dell'utente. Se vogliamo eliminare un Asset dobbiamo necessariamente specificare l'ID univoco che lo identifica. Si richiede che il codice `asset_id` venga passato tra i parametri della richiesta. Qual'ora la richiesta venga evasa correttamente, allora il server risponderà al client inviando nel in formato JSON l'oggetto Asset eliminato.   
     
       Esempio:    
     
