@@ -405,15 +405,7 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
     
       Esempio:    
     
-      **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets/history/BTC
-    
-      **BODY**:
-      ``` JSON
-      {
-          "duration_id": "1HRS",
-          "exchange_currency": "EUR"
-      }
-      ```
+      **URI**: https://pdgt-crypto-app-api.herokuapp.com/userList/assets/LTC
 
       **RESPONSE**:
       ```JSON
