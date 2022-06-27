@@ -445,6 +445,7 @@ Di seguito potremmo consultare una lista di tutti gli endpoint funzionali che va
       ```
 
 <br>
+
 > ##### Principi di naming utilizzati
 > * *URIs as resources as nouns*: “RESTful URIs should refer to a resource that is a thing (noun) instead of referring to an action (verb) because nouns have properties which verbs do not have – similar to resources have attributes.” – RESTfulAPI.net
 > * *Pluralized resources*: “API design experts would suggest you pluralize all resources unless they are singleton resources.” – nordicapis.com
